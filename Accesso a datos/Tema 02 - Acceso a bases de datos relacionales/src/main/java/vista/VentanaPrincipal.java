@@ -3,6 +3,7 @@ package vista;
 import conexion.ConexionBD;
 import dao.ClienteDAO;
 import dao.ProductoDAO;
+import modelo.Cliente;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -109,8 +110,8 @@ public class VentanaPrincipal extends JFrame {
         JButton btnEliminar = new JButton("Eliminar");
         JButton btnActualizar = new JButton("Actualizar tabla");
 
-        //btnNuevo.addActionListener(e -> nuevoCliente());
-        //btnEditar.addActionListener(e -> editarCliente());
+        btnNuevo.addActionListener(e -> nuevoCliente());
+        btnEditar.addActionListener(e -> editarCliente());
         btnEliminar.addActionListener(e -> eliminarCliente());
         btnActualizar.addActionListener(e -> cargarClientes());
 
@@ -170,6 +171,8 @@ public class VentanaPrincipal extends JFrame {
             lblEstado.setText("BBDDD: error");
 
         }
+        cargarClientes();
+        cargarProductos();
 
     }
 
@@ -178,7 +181,124 @@ public class VentanaPrincipal extends JFrame {
     // =========================================================
 
     private void cargarClientes() {
+        try {
+            modeloClientes.setRowCount(0);
 
+            for(Cliente c : clienteDAO.listar()){
+                modeloClientes.addRow(
+                        new Object[]{
+                                c.getId(),
+                                c.getNombre(),
+                                c.getEmail(),
+                                c.isActivo()
+                        });
+            }
+
+        }  catch (SQLException ex) {
+            mostrarError("Error consultando clientes: \n" + ex.getMessage());
+        }
+    }
+
+    private void nuevoCliente(){
+
+        JTextField txtNombre = new JTextField();
+        JTextField txtEmail = new JTextField();
+        JCheckBox chkActivo = new JCheckBox();
+
+        Object[] formulario = {
+                "Nombre: ", txtNombre,
+                "Email: ", txtEmail,
+                "Activo: ", chkActivo
+        };
+
+        int opcion = JOptionPane.showConfirmDialog(
+                this,
+                formulario,
+                "Nuevo cliente",
+                JOptionPane.OK_CANCEL_OPTION
+
+        );
+
+        if (opcion != JOptionPane.OK_OPTION){
+            return;
+        }
+
+        if (txtNombre.getText().isBlank() || txtEmail.getText().isBlank()){
+            mostrarError("Nombre y email son obligatorios");
+            return;
+        }
+
+        Cliente cliente = new Cliente(
+                null,
+                txtNombre.getText().trim(),
+                txtEmail.getText().trim(),
+                chkActivo.isSelected()
+        );
+
+        try {
+
+            clienteDAO.insertar(cliente);
+            cargarClientes();
+
+        } catch (SQLException e) {
+            mostrarError("Error insertando cliente: \n" + e.getMessage());
+        }
+
+    }
+
+    private void editarCliente() {
+
+        int fila = tablaClientes.getSelectedRow();
+
+        if (fila == -1) {
+            mostrarError("Selecciona primero un cliente");
+            return;
+        }
+
+        Integer id = (Integer) modeloClientes.getValueAt(fila, 0);
+
+        JTextField txtNombre = new JTextField(
+                modeloClientes.getValueAt(fila,1).toString()
+        );
+
+        JTextField txtEmail = new JTextField(
+                modeloClientes.getValueAt(fila,2).toString()
+        );
+
+        JCheckBox chkActivo = new JCheckBox("Activo",
+                (Boolean) modeloClientes.getValueAt(fila,3)
+        );
+
+        Object[] formulario = {
+                "Nombre: ", txtNombre,
+                "Email: ", txtEmail,
+                "Activo: ", chkActivo
+        };
+
+        int opcion = JOptionPane.showConfirmDialog(
+                this,
+                formulario,
+                "Editar cliente",
+                JOptionPane.OK_CANCEL_OPTION
+        );
+
+        if (opcion != JOptionPane.OK_OPTION) {
+            return;
+        }
+
+        Cliente cliente = new Cliente (
+                id,
+                txtNombre.getText().trim(),
+                txtEmail.getText().trim(),
+                chkActivo.isSelected()
+        );
+
+        try {
+            clienteDAO.actualizar(cliente);
+            cargarClientes();
+        } catch (SQLException e) {
+            mostrarError("Error actualizando cliente " + e.getMessage());
+        }
 
     }
 
