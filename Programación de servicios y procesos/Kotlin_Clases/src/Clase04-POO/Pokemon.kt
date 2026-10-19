@@ -1,7 +1,10 @@
+package `Clase04-POO`
 
 abstract class Pokemon (
     protected val nombre: String,
-    private val numeroPokedex: Int
+    private val numeroPokedex: Int,
+    private val tipo: Tipo,
+    private val subtipo: Tipo? = null
     ){
 
     protected var vida = 100

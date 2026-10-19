@@ -1,9 +1,10 @@
+package `Clase04-POO`
 
 fun main() {
 
     val equipo: List<Pokemon> = listOf(
-        Pikachu("Pikachu,25")
-        Charmander("Charmander",4)
+        Pikachu("Pikachu",25, Tipo.ELECTRICO),
+        Charmander("Charmander",4, Tipo.FUEGO)
     )
 
     for (pokemon in equipo){
@@ -14,7 +15,7 @@ fun main() {
 
     // Interfaces
 
-    val pikachita = Pikachu("Pikachu",numeroPokedex = 25)
+    val pikachita = Pikachu("Pikachu",25, Tipo.ELECTRICO)
 
     pikachita.ataqueEspecial()
     pikachita.esquivar()
@@ -24,7 +25,11 @@ fun main() {
         val pokemonAsh = equipo
 
         fun llamarPokemon(){
-            println($pokemon.toString() + " tu turno es ahora")
+            for(pokemon in pokemonAsh) {
+                println(pokemon.toString() + " tu turno es ahora")
+            }
         }
     }
+     entrenador.llamarPokemon()
+
 }

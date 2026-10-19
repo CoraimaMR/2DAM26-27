@@ -1,8 +1,10 @@
+package `Clase04-POO`
 
 class Charmander (
     nombre:String,
-    numeroPokedex: Int
-): Pokemon(nombre, numeroPokedex=4), Atacante{
+    numeroPokedex: Int,
+    tipo: Tipo
+): Pokemon(nombre, numeroPokedex=4, tipo = Tipo.FUEGO), Atacante {
 
     override fun atacar() {
         println("$nombre usa ascuas")

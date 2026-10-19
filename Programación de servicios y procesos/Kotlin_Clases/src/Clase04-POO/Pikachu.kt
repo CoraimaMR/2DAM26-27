@@ -1,7 +1,10 @@
+package `Clase04-POO`
+
 class Pikachu (
     nombre:String,
-    numeroPokedex: Int
-): Pokemon(nombre, numeroPokedex=25), Atacante{
+    numeroPokedex: Int,
+    tipo: Tipo
+): Pokemon(nombre, numeroPokedex=25,tipo = Tipo.ELECTRICO), Atacante {
 
     override fun atacar() {
         println("$nombre usa impactrueno")

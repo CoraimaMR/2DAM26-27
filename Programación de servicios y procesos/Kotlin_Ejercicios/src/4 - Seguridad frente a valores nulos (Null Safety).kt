@@ -1,0 +1,2 @@
+
+/* Actividad: Desarrolla una aplicación de consulta de usuarios que gestione referencias nulas de forma segura. Emplea operadores propios de Kotlin como ?., ?:, !! y let para controlar posibles valores nulos.*/

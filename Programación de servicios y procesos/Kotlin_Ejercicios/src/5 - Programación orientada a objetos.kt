@@ -1,0 +1,2 @@
+
+/*Actividad: Crea una aplicación de gestión bancaria utilizando herencia. Define una clase principal llamada Cuenta y extiéndela mediante las clases CuentaAhorro y CuentaCorriente, incorporando características y comportamientos específicos para cada una.*/

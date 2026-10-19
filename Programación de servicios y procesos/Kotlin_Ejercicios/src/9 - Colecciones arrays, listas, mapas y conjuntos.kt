@@ -1,0 +1,2 @@
+
+/*Actividad: Implementa un sistema de gestión bibliotecaria que haga uso de diferentes colecciones (Array, List, Map y Set). Incluye operaciones funcionales para administrar información sobre libros, autores y préstamos.*/
