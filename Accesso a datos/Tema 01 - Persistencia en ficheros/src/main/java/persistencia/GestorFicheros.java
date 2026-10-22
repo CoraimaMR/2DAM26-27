@@ -22,7 +22,7 @@ public class GestorFicheros {
     // --------------------- CLIENTES ---------------------
 
     // TXT
-    public static void exportarClientesTxt (Path ruta, List<Cliente> clientes) throws IOException {
+    public static void exportarClientesTxt(Path ruta, List<Cliente> clientes) throws IOException {
         try(BufferedWriter bw = Files.newBufferedWriter(ruta,  StandardCharsets.UTF_8)){
             for(Cliente c : clientes) {
                 bw.write(c.getId() + ";" + c.getNombre()  + ";" + c.getEmail()  + ";"  + c.getTelefono());
@@ -38,17 +38,17 @@ public class GestorFicheros {
             String linea;
 
             while ((linea = br.readLine()) != null){
-                String[] p = linea.split(";", -1);
+                String[] c = linea.split(";", -1);
 
-                if (p.length != 4 ){
+                if (c.length != 4 ){
                     continue;
                 }
 
                 try {
-                    int id = Integer.parseInt(p[0]);
-                    String nombre = p[1];
-                    String email = p[2];
-                    String telefono = p[3];
+                    int id = Integer.parseInt(c[0]);
+                    String nombre = c[1];
+                    String email = c[2];
+                    String telefono = c[3];
 
                     Cliente cliente = new Cliente (id, nombre, email, telefono);
                     resultado.add(cliente);
@@ -62,6 +62,19 @@ public class GestorFicheros {
     }
 
     // CSV
+
+    // Entrada: "  Tienda, "Pepe""
+    private static String csv(String valor){
+        if (valor == null) {
+            return "";
+        }
+
+        if (valor.contains(",") || valor.contains("\"") || valor.contains("\n")) {
+            return "\"" + valor.replace("\"", "\"\"") + "\"";
+        }
+        return valor;
+    }
+
     public static void exportarClientesCsv(Path ruta, List<Cliente> clientes) throws IOException {
         try (BufferedWriter bw = Files.newBufferedWriter(ruta, StandardCharsets.UTF_8)) {
             bw.write("id,nombre,email,telefono");
@@ -71,6 +84,34 @@ public class GestorFicheros {
             }
         }
 
+    }
+
+    // Entrada: 3, "Pérez, ""Juan""", Ourense, Pepa
+    private static List<String> parseCsv(String linea) {
+        List<String> campos = new ArrayList<>();
+        StringBuilder actual = new StringBuilder();
+        boolean entreComillas = false;
+
+        for (int i = 0; i < linea.length(); i++) {
+            char c = linea.charAt(i);
+
+            if (c == '"') {
+                if (entreComillas && i+1 < linea.length() && linea.charAt(i+1) == '"') {
+                    actual.append('"');
+                    i++;
+                } else {
+                    entreComillas = !entreComillas;
+                }
+            } else if (c == ',' && !entreComillas) {
+                campos.add(actual.toString());
+                actual.setLength(0);
+            } else {
+                actual.append(c);
+            }
+        }
+
+        campos.add(actual.toString());
+        return campos;
     }
 
     public static List<Cliente> importarClientesCsv(Path ruta) throws IOException {
@@ -140,7 +181,7 @@ public class GestorFicheros {
     public static void exportarProductosTxt (Path ruta, List<Producto> productos) throws IOException {
         try(BufferedWriter bw = Files.newBufferedWriter(ruta,  StandardCharsets.UTF_8)){
             for(Producto p : productos) {
-                bw.write(p.getId() + "," + p.getNombre()  + "," + p.getPrecio()  + ","  + p.getStock());
+                bw.write(p.getId() + ";" + p.getNombre()  + ";" + p.getPrecio()  + ";"  + p.getStock());
                 bw.newLine();
             }
         }
@@ -153,7 +194,7 @@ public class GestorFicheros {
             String linea;
 
             while ((linea = br.readLine()) != null){
-                String[] p = linea.split(",", -1);
+                String[] p = linea.split(";", -1);
 
                 if (p.length != 4 ){
                     continue;
@@ -211,46 +252,42 @@ public class GestorFicheros {
         return resultado;
     }
 
-    // --------------------- FUNCIONES PRIV ---------------------
-
-    // Entrada: "  Tienda, "Pepe""
-    private static String csv(String valor){
-        if (valor == null) {
-            return "";
-        }
-
-        if (valor.contains(",") || valor.contains("\"") || valor.contains("\n")) {
-            return "\"" + valor.replace("\"", "\"\"") + "\"";
-        }
-        return valor;
+    // XML
+    public static void exportarProductosXml (Path ruta, List<Producto> productos) throws IOException {
+        XML_MAPPER.writeValue(ruta.toFile(), new ProductosXml(productos));
     }
 
-    // Entrada: 3, "Pérez, ""Juan""", Ourense, Pepa
-    private static List<String> parseCsv(String linea) {
-        List<String> campos = new ArrayList<>();
-        StringBuilder actual = new StringBuilder();
-        boolean entreComillas = false;
+    public static class ProductosXml { // RAPER
+        private List<Producto> productos = new ArrayList<>();
 
-        for (int i = 0; i < linea.length(); i++) {
-            char c = linea.charAt(i);
+        public ProductosXml(){
 
-            if (c == '"') {
-                if (entreComillas && i+1 < linea.length() && linea.charAt(i+1) == '"') {
-                    actual.append('"');
-                    i++;
-                } else {
-                    entreComillas = !entreComillas;
-                }
-            } else if (c == ',' && !entreComillas) {
-                campos.add(actual.toString());
-                actual.setLength(0);
-            } else {
-                actual.append(c);
-            }
         }
 
-        campos.add(actual.toString());
-        return campos;
+        public ProductosXml(List<Producto> productos){
+            this.productos = productos;
+        }
+
+        public List<Producto> getProductos() {return productos;}
+
+        public void setProductos(List<Producto> productos) {
+            this.productos = productos;
+        }
+    }
+
+    public static List<Producto> importarProductosXml (Path ruta) throws IOException {
+        ProductosXml contenedor = XML_MAPPER.readValue(ruta.toFile(), ProductosXml.class);
+
+        return contenedor.getProductos() == null ? new ArrayList<>() : contenedor.getProductos();
+    }
+
+    // JSON
+    public static void exportarProductosJson (Path ruta, List<Producto> productos) throws IOException {
+        MAPPER.writeValue(ruta.toFile(), productos);
+    }
+
+    public static List<Producto> importarProductosJson (Path ruta) throws IOException {
+        return MAPPER.readValue(ruta.toFile(), new TypeReference<List<Producto>>(){});
     }
 
 }

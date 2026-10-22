@@ -2,6 +2,7 @@ package dao;
 
 import conexion.ConexionBD;
 import modelo.Cliente;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +69,7 @@ public class ClienteDAO {
         }
     }
 
-    public boolean actualizar (Cliente cliente) throws SQLException {
+    public boolean actualizar(Cliente cliente) throws SQLException {
         String sql = """
                 UPDATE cliente
                 SET nombre = ?, email = ?, activo = ?
@@ -77,13 +78,28 @@ public class ClienteDAO {
 
         try (
                 Connection con = ConexionBD.obtenerConexion();
-                PreparedStatement ps = con.prepareStatement(sql)
+                PreparedStatement ps = con.prepareStatement(sql);
         ){
             ps.setString(1, cliente.getNombre());
             ps.setString(2, cliente.getEmail());
             ps.setBoolean(3 , cliente.isActivo());
             ps.setInt(4 , cliente.getId());
 
+            return ps.executeUpdate() == 1;
+        }
+    }
+
+    public boolean eliminar(int id) throws SQLException {
+        String sql = """
+                DELETE FROM cliente
+                WHERE id = ?
+                """;
+
+        try (
+                Connection con = ConexionBD.obtenerConexion();
+                PreparedStatement ps = con.prepareStatement(sql);
+        ){
+            ps.setInt(1, id);
             return ps.executeUpdate() == 1;
         }
     }

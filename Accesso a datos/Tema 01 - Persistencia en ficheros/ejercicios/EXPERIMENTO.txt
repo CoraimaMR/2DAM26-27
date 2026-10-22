@@ -1,0 +1,96 @@
+# GESTOR DE FICHEROS
+
+Esta clase concentra la lógica relacionada con la persistencia de nuestros objetos en ficheros. La idea es separar
+responsabilidades:
+
+`INTERFAZ GRÁFICA` ➔ `SERVICIO` ➔ `GestorFicheros` ➔ `FICHEROS`
+
+En esta fase estamos trabajando con cuatro formatos: **TXT, CSV, XML y JSON**.
+
+> ⚠️ **IMPORTANTE:** Para **TXT y CSV** estamos realizando nosotros manualmente la transformación entre objetos Java y
+texto. Con **XML y JSON** utilizaremos **Jackson** para realizar gran parte de ese trabajo automáticamente.
+
+------------------------------------------------------------------------------------------------------------------------
+
+## EXPERIMENTOS PROPUESTOS PARA HACER CON LOS ALUMNOS
+
+### Antes de modificar nada:
+1. Crear varios clientes desde el programa.
+2. Exportarlos a XML.
+3. Exportarlos también a JSON.
+4. Abrir ambos ficheros con IntelliJ o un editor de texto.
+5. Comparar cómo se representa la misma información en ambos formatos.
+
+---
+
+### EXPERIMENTO 1: MODIFICAR UN VALOR
+*   **XML:** Cambiar `<nombre>Ana</nombre>` por `<nombre>María</nombre>`.
+*   **JSON:** Cambiar `"nombre": "Ana"` por `"nombre": "María"`.
+*   Volver a importar.
+*   **PREGUNTA:** ¿Aparece María en nuestra aplicación?
+
+### EXPERIMENTO 2: ELIMINAR UNA PROPIEDAD
+*   Eliminar por ejemplo el teléfono:
+    *   **XML:** Quitar `<telefono>600123456</telefono>`.
+    *   **JSON:** Quitar `"telefono": "600123456"`.
+*   Volver a importar.
+*   Observar qué valor recibe Java.
+*   💡 **PISTA:** Si una propiedad de tipo referencia (como `String`) no aparece, normalmente su valor quedará a `null`
+si Jackson puede construir correctamente el objeto.
+
+### EXPERIMENTO 3: AÑADIR UNA PROPIEDAD DESCONOCIDA
+*   Añadir manualmente:
+    *   **XML:** `<ciudad>Madrid</ciudad>`.
+    *   **JSON:** `"ciudad": "Madrid"`.
+*   *Nota:* Nuestra clase `Cliente` **NO** tiene el atributo `private String ciudad;`.
+*   **PREGUNTA:** ¿Qué hará Jackson? ¿Ignorará el dato o dará un error? Es interesante probarlo en XML y JSON y leer el
+mensaje de la excepción.
+
+### EXPERIMENTO 4: ROMPER LA SINTAXIS
+*   **XML:** Eliminar una etiqueta de cierre (ej. `<nombre>Ana`).
+*   **JSON:** Eliminar una coma (ej. `"id": 1 "nombre": "Ana"`).
+*   Intentar importar.
+*   **OBJETIVO:** Comprobar que XML y JSON tienen una sintaxis estricta que debe respetarse.
+
+### EXPERIMENTO 5: CAMBIAR EL TIPO DE UN DATO
+*   Si `id` es un `int`, cambiar `"id": 1` por `"id": "ABC"` (o en XML `<id>ABC</id>`).
+*   Intentar importar.
+*   **PREGUNTA:** ¿Puede Jackson convertir `"ABC"` en un `int`?
+
+### EXPERIMENTO 6: AÑADIR UN CLIENTE MANUALMENTE
+*   Copiar uno de los clientes directamente dentro del fichero, modificar sus datos e intentar importarlo.
+*   **OBJETIVO:** Entender que el fichero es independiente del programa (`fichero ➔ Jackson ➔ objetos Java`).
+
+### EXPERIMENTO 7: FICHERO VACÍO
+*   Vaciar completamente un fichero JSON o XML e intentar importarlo.
+*   Observar qué excepción produce Jackson.
+
+### EXPERIMENTO 8: JSON - CAMBIAR `[]` POR `{}`
+*   Nuestro JSON contiene una **LISTA** `[]`. Cambiarlo por un único objeto `{}` y volver a importar.
+*   **PREGUNTA:** Si hemos pedido a Jackson `List<Cliente>`, ¿puede deserializar un único objeto como si fuera una
+lista?
+
+### EXPERIMENTO 9: XML - MODIFICAR EL WRAPPER
+*   En XML utilizamos `ClientesXml` como clase contenedora.
+*   Modificar manualmente la estructura del documento y observar qué ocurre cuando deja de corresponderse con la
+estructura que Jackson espera convertir a `ClientesXml`.
+
+### EXPERIMENTO 10: CARACTERES ESPECIALES
+*   Probar nombres como `José Álvarez`, `María & Ana`, `Pepe < Juan`.
+*   Exportarlos a XML y JSON.
+*   Observar cómo Jackson representa o escapa automáticamente determinados caracteres.
+*   Comparar este comportamiento con todo el código que nosotros tuvimos que escribir manualmente para CSV.
+
+
+Experimento	Comportamiento en TXT (Manual)	Explicación / Resultado
+1. Modificar valor - Sí aparece María.	Si el código lee la línea correspondiente al nombre, guardará "María" en la variable y se asignará correctamente al objeto.
+2. Eliminar propiedad - Lanza excepción o rompe el orden de los datos.	Al quitar una línea o un dato, tu algoritmo manual intentará leer la propiedad siguiente (ej. el teléfono) pensando que es la actual. Provocará errores de lógica o un NullPointerException / IndexOutOfBoundsException.
+3. Propiedad desconocida - Lanza excepción o corrompe la lectura.	Tu código manual no sabe saltarse líneas o datos inesperados. Al introducir "Madrid", el lector manual lo asignará erróneamente al siguiente atributo de la clase Cliente o fallará estrepitosamente.
+4. Romper sintaxis - Depende de tu regla de negocio.	TXT no tiene una sintaxis estricta nativa. "Romper la sintaxis" aquí significa romper la estructura que tú has programado (ej. dejar una línea en blanco o quitar un separador propio). El programa fallará al parsear.
+5. Cambiar tipo de dato - Lanza excepción de Java.	NumberFormatException. Al intentar hacer un Integer.parseInt("ABC") sobre el campo id, Java lanzará la excepción inmediatamente.
+6. Añadir manualmente - Importa con éxito (si respetas la estructura).	Si el alumno escribe el nuevo cliente siguiendo exactamente el patrón de líneas o separadores que programasteis, el lector lo procesará perfectamente.
+7. Fichero vacío - No hace nada o se queda en blanco.	El bucle de lectura (while line != null) terminará en la primera iteración. Devolverá una lista vacía de clientes sin lanzar ninguna excepción (a menos que tu código obligue a que tenga datos).
+8. Cambiar [] por {} - N/A (No aplica)	El formato TXT plano no reconoce llaves ni corchetes a menos que los programes tú. Si los pones, los leerá como parte del texto de los atributos.
+9. Modificar Wrapper - N/A (No aplica)	En TXT no existe un nodo raíz ni etiquetas contenedoras. El contenedor es el propio archivo físico.
+10. Caracteres especiales - Peligro de corrupción o fallos de encoding.	Si pones caracteres como & o <, el TXT los leerá bien. El problema real ocurrirá si el archivo se guarda en un encoding diferente (ej. ANSI o ISO-8859-1) y tu programa Java lo intenta leer en UTF-8, rompiendo las tildes y las ñ.
+

@@ -4,10 +4,12 @@ import conexion.ConexionBD;
 import dao.ClienteDAO;
 import dao.ProductoDAO;
 import modelo.Cliente;
+import modelo.Producto;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -324,6 +326,12 @@ public class VentanaPrincipal extends JFrame {
             return;
         }
 
+        try {
+            clienteDAO.eliminar(id);
+            cargarClientes();
+        } catch (SQLException e) {
+            mostrarError("Error eliminando cliente : \n" + e.getMessage());
+        }
 
     }
 
@@ -332,8 +340,22 @@ public class VentanaPrincipal extends JFrame {
     // =========================================================
 
     private void cargarProductos() {
+        try {
+            modeloProductos.setRowCount(0);
 
+            for(Producto c : productoDAO.listar()){
+                modeloProductos.addRow(
+                        new Object[]{
+                                c.getId(),
+                                c.getNombre(),
+                                c.getPrecio(),
+                                c.getStock()
+                        });
+            }
 
+        }  catch (SQLException ex) {
+            mostrarError("Error consultando productos: \n" + ex.getMessage());
+        }
     }
 
     private void nuevoProducto() {
@@ -359,6 +381,26 @@ public class VentanaPrincipal extends JFrame {
             return;
         }
 
+        if (txtNombre.getText().isBlank() || txtPrecio.getText().isBlank()){
+            mostrarError("Nombre y precio son obligatorios");
+            return;
+        }
+
+        Producto producto = new Producto(
+                null,
+                txtNombre.getText().trim(),
+                BigDecimal.valueOf(Double.parseDouble(txtPrecio.getText().trim())),
+                Integer.parseInt(txtStock.getText().trim())
+        );
+
+        try {
+
+            productoDAO.insertar(producto);
+            cargarProductos();
+
+        } catch (SQLException e) {
+            mostrarError("Error insertando producto: \n" + e.getMessage());
+        }
 
     }
 
@@ -402,6 +444,19 @@ public class VentanaPrincipal extends JFrame {
             return;
         }
 
+        Producto producto = new Producto (
+                id,
+                txtNombre.getText().trim(),
+                BigDecimal.valueOf(Double.parseDouble(txtPrecio.getText().trim())),
+                Integer.parseInt(txtStock.getText().trim())
+        );
+
+        try {
+            productoDAO.actualizar(producto);
+            cargarProductos();
+        } catch (SQLException e) {
+            mostrarError("Error actualizando producto " + e.getMessage());
+        }
 
     }
 
@@ -427,6 +482,12 @@ public class VentanaPrincipal extends JFrame {
             return;
         }
 
+        try {
+            productoDAO.eliminar(id);
+            cargarProductos();
+        } catch (SQLException e) {
+            mostrarError("Error eliminando producto : \n" + e.getMessage());
+        }
 
     }
 

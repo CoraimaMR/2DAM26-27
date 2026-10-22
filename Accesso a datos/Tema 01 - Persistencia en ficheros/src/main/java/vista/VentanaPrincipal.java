@@ -280,8 +280,8 @@ public class VentanaPrincipal extends JFrame {
             switch (formato) {
                 case "TXT" -> GestorFicheros.exportarProductosTxt(ruta, servicio.getProductos());
                 case "CSV" -> GestorFicheros.exportarProductosCsv(ruta, servicio.getProductos());
-                case "JSON" -> System.out.println("No implementado");
-                case "XML" -> System.out.println("No implementado");
+                case "JSON" -> GestorFicheros.exportarProductosJson(ruta, servicio.getProductos());
+                case "XML" -> GestorFicheros.exportarProductosXml(ruta, servicio.getProductos());
             }
             informar("Productos exportados en " + formato + ":\n" + ruta.toAbsolutePath());
         } catch (Exception ex) {
@@ -297,14 +297,8 @@ public class VentanaPrincipal extends JFrame {
         try {
             List<Producto> datos = switch (formato) {
                 case "CSV" -> GestorFicheros.importarProductosCsv(ruta);
-                case "JSON" -> {
-                    System.out.println("JSON todavía no implementado");
-                    yield new ArrayList<>();
-                }
-                case "XML" -> {
-                    System.out.println("XML todavía no implementado");
-                    yield new ArrayList<>();
-                }
+                case "JSON" -> GestorFicheros.importarProductosJson(ruta);
+                case "XML" -> GestorFicheros.importarProductosXml(ruta);
                 default -> GestorFicheros.importarProductosTxt(ruta);
             };
             servicio.getProductos().clear();
