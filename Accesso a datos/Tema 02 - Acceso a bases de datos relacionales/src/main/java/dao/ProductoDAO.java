@@ -82,7 +82,7 @@ public class ProductoDAO {
             ps.setInt(3 , producto.getStock());
             ps.setInt(4 , producto.getId());
 
-            return ps.executeUpdate() == 1; // EJECUTA EL "sql" y si es igual a 1 devuelve true
+            return ps.executeUpdate() == 1; // EJECUTA EL "sql" y devuelve true si afectó exactamente una fila
         }
     }
 
@@ -99,7 +99,7 @@ public class ProductoDAO {
             // ASIGNA LOS VALORES A LOS PARÁMETROS "?"
             ps.setInt(1, id);
 
-            return ps.executeUpdate() == 1;  // EJECUTA EL "sql" y si es igual a 1 devuelve true
+            return ps.executeUpdate() == 1;  // EJECUTA EL "sql" y devuelve true si afectó exactamente una fila
         }
     }
 
