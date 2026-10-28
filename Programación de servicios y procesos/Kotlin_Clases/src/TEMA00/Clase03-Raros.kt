@@ -1,3 +1,5 @@
+package TEMA00
+
 fun main() {
 
     // La palabra reservada it:  it se utiliza para referirse al único parámetro de entrada de la función lambda

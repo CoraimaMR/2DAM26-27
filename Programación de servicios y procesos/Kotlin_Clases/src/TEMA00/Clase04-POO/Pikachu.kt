@@ -1,17 +1,17 @@
-package `Clase04-POO`
+package TEMA00.`Clase04-POO`
 
-class Charmander (
+class Pikachu (
     nombre:String,
     numeroPokedex: Int,
     tipo: Tipo
-): Pokemon(nombre, numeroPokedex=4, tipo = Tipo.FUEGO), Atacante {
+): Pokemon(nombre, numeroPokedex=25,tipo = Tipo.ELECTRICO), Atacante {
 
     override fun atacar() {
-        println("$nombre usa ascuas")
+        println("$nombre usa impactrueno")
     }
 
     override fun ataqueEspecial() {
-        println("$nombre usa llamarada")
+        println("$nombre usa rayo")
     }
 
     override fun recibirAtaque(cantidad: Int) {

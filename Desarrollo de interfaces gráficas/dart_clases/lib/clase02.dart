@@ -39,10 +39,10 @@ void main () {
 void nullAware() {
   // Null Aware Operator ?
   String ? nombre = "Coraima";
-  print(nombre.length);
+  print(nombre?.length);
 
   // Null Aware Operator ??
-  String ? pokemon;
+  String ? pokemon = null;
   print(pokemon ?? 'No hay pokemon');
 
   // Null Aware Operator !

@@ -1,1 +1,0 @@
-// Enum classes: clase "Tipo" en package `Clase04-POO`

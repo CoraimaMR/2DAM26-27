@@ -1,4 +1,4 @@
-package `Clase04-POO`
+package TEMA00.`Clase04-POO`
 
 interface Atacante {
 

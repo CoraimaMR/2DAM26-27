@@ -13,11 +13,33 @@ val resultadoSuma = suma(10, 5)
 val resultadoResta = resta(10, 5)*/
 
 fun main() {
+    val resultadoSuma = operacion(10, 5, ::suma)
+    val resultadoResta = operacion(10, 5, ::resta)
+    val resultadoDivision = operacion(10, 5, ::division)
+    val resultadoMultiplicacion = operacion(10, 5, ::multiplicacion)
 
-    val x: Int = 1
-    val y: Int = 2
-
-
-
+    println("Suma: 10 + 5 = $resultadoSuma \n" +
+            "Resta: 10 - 5 = $resultadoResta \n" +
+            "Division: 10 / 5 = $resultadoDivision \n" +
+            "Multiplicación: 10 * 5 = $resultadoMultiplicacion")
 }
 
+fun operacion(a: Int, b: Int, funcion: (Int, Int) -> Int): Int {
+    return funcion(a, b)
+}
+
+fun suma(a: Int, b: Int): Int {
+    return a + b
+}
+
+fun resta(a: Int, b: Int): Int {
+    return a - b
+}
+
+fun division(a: Int, b: Int): Int {
+    return a / b
+}
+
+fun multiplicacion(a: Int, b: Int): Int {
+    return a * b
+}
