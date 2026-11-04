@@ -14,19 +14,32 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="BRUJULA DIGITAL"
+
+        android:text="BRÚJULA DIGITAL"
         android:textSize="26sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="#263238"
+
+        android:layout_marginBottom="24dp" />
 
     <ImageView
         android:id="@+id/imgBrujula"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:src="@drawable/aguja_brujula" />
+        android:layout_width="100dp"
+        android:layout_height="200dp"
+
+        android:src="@drawable/aguja_brujula"
+        android:contentDescription="Aguja de brújula"
+
+        android:layout_marginBottom="24dp" />
 
     <TextView
+        android:id="@+id/txtDireccion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+
+        android:text="Norte"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#1565C0" />
 
 </LinearLayout>

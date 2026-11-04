@@ -10,7 +10,7 @@ public class JpaUtil {
 
     private JpaUtil() {
 
-    }
+    } // CONSTRUCTOR
 
     public static EntityManager abrir() {
         return FACTORY.createEntityManager();
