@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:orientation="vertical"
     android:gravity="center"
     android:padding="24dp"
-    android:background="F2F2F2"
+
+    android:background="#F2F2F2"
     tools:context=".MainActivity">
 
     <TextView
@@ -20,6 +24,16 @@
         android:textStyle="bold"
         android:textColor="#263238"
 
+        android:layout_marginBottom="24dp" />
+
+    <TextView
+        android:id="@+id/txtGrados"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0º"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#263238"
         android:layout_marginBottom="24dp" />
 
     <ImageView
@@ -41,5 +55,15 @@
         android:textSize="22sp"
         android:textStyle="bold"
         android:textColor="#1565C0" />
+
+    <TextView
+        android:id="@+id/txtSensor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0º"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#263238"
+        android:layout_marginBottom="24dp" />
 
 </LinearLayout>
