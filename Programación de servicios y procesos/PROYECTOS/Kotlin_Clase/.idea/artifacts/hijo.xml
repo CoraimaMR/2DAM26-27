@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="hijo">
+    <output-path>$PROJECT_DIR$/out/artifacts/hijo</output-path>
+    <root id="archive" name="hijo.jar">
+      <element id="file-copy" path="$PROJECT_DIR$/src/Tema1/009hijo.kt" />
+    </root>
+  </artifact>
+</component>
