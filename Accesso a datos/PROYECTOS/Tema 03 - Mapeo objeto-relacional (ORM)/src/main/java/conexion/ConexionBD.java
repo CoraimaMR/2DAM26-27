@@ -1,0 +1,34 @@
+package conexion;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+/**
+ * Centraliza la creación de conexiones JDBC.
+ *
+ * Los valores coinciden con la BBDD que estamos preparando en clase.
+ * En un proyecto profesional las credenciales NO deberían estar
+ * escritas
+ */
+public final class ConexionBD {
+
+    private static final String URL = "jdbc:postgresql://localhost:5432/tienda_ramiro";
+    private static final String USUARIO = "tienda_app";
+    private static final String PASSWORD = "tienda1234";
+
+    private ConexionBD() {
+
+    }
+
+    public static Connection obtenerConexion()
+            throws SQLException {
+
+        return DriverManager.getConnection(
+                URL,
+                USUARIO,
+                PASSWORD
+        );
+    }
+
+}
