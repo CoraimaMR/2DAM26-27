@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    BRÚJULA DIGITAL - VECTOR DRAWABLE
+
+    Dibujamos cuatro elementos:
+
+    1. Circunferencia exterior.
+    2. Aguja roja que señala el norte.
+    3. Aguja gris que señala el sur.
+    4. Círculo central que representa el eje.
+
+    El dibujo tiene 240 x 240 unidades.
+
+    Coordenadas:
+    - X aumenta hacia la derecha.
+    - Y aumenta hacia abajo.
+    - El centro está en (120,120).
+-->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="240dp"
+    android:height="240dp"
+    android:viewportWidth="240"
+    android:viewportHeight="240">
+
+    <!--
+        1. CÍRCULO EXTERIOR
+
+        Se dibuja mediante dos arcos.
+
+        M120,10:
+            Punto inicial, arriba del círculo.
+
+        A110,110:
+            Arco con radios de 110 unidades.
+
+        El primer arco llega a (120,230).
+        El segundo vuelve a (120,10).
+
+        strokeColor:
+            Color del contorno.
+
+        strokeWidth:
+            Grosor del contorno.
+
+        fillColor:
+            Transparente para no rellenar.
+    -->
+
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#455A64"
+        android:strokeWidth="3"
+        android:pathData="M120,10 A110,110 0 0,1 120,230 A110,110 0 0,1 120,10 Z" />
+
+    <!--
+        2. AGUJA ROJA: NORTE
+
+        M120,30:
+            Punta superior del triángulo.
+
+        L100,120:
+            Esquina inferior izquierda.
+
+        L140,120:
+            Esquina inferior derecha.
+
+        Z:
+            Cierra el triángulo.
+
+        La aguja roja ocupa la mitad
+        superior del dibujo.
+    -->
+
+    <path
+        android:fillColor="#E53935"
+        android:pathData="M120,30 L100,120 L140,120 Z" />
+
+    <!--
+        3. AGUJA GRIS: SUR
+
+        M100,120:
+            Esquina superior izquierda.
+
+        L140,120:
+            Esquina superior derecha.
+
+        L120,210:
+            Punta inferior.
+
+        Z:
+            Cierra el triángulo.
+
+        La aguja gris ocupa la mitad
+        inferior del dibujo.
+
+        Ambas agujas se unen en Y=120.
+    -->
+
+    <path
+        android:fillColor="#78909C"
+        android:pathData="M100,120 L140,120 L120,210 Z" />
+
+    <!--
+        4. CÍRCULO CENTRAL
+
+        Representa el eje de giro.
+
+        Centro: (120,120).
+        Radio: 6 unidades.
+
+        Se dibuja mediante dos arcos
+        que forman una circunferencia.
+
+        Aparece encima de las agujas
+        porque se declara al final.
+    -->
+
+    <path
+        android:fillColor="#263238"
+        android:pathData="M120,114 A6,6 0 1,1 120,126 A6,6 0 1,1 120,114 Z" />
+
+</vector>
