@@ -26,7 +26,7 @@ class Cliente {
   // Métodos
   void mostrarInformacion() {
     print(
-      'Cliente ID: ${_id} - Nombre: ${_nombre} - Email: ${_email}'
+      'Cliente ID: $_id - Nombre: $_nombre - Email: $_email'
     );
   }
 
