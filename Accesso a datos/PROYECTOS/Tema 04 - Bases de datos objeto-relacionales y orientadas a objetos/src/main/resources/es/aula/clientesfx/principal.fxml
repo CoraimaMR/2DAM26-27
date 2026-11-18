@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane fx:id="zonaTrabajo" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="es.aula.clientesfx.PrincipalController">
+  <top><VBox styleClass="cabecera">
+    <Label text="Clientes · JDBC y PostgreSQL" styleClass="titulo"/>
+    <Label text="Repaso resuelto y práctica objeto-relacional por completar" styleClass="subtitulo"/>
+    <HBox spacing="12"><Button text="Comprobar conexión" onAction="#comprobarConexion"/></HBox>
+  </VBox></top>
+  <center><TabPane tabClosingPolicy="UNAVAILABLE">
+    <tabs>
+      <Tab text="1. Repaso JDBC · CRUD completo">
+        <ScrollPane fitToWidth="true"><content><VBox styleClass="contenido">
+          <Label text="Ya resuelto: seleccionar una fila carga el formulario. Los cambios afectan solo al repaso." wrapText="true" styleClass="nota"/>
+          <HBox spacing="8">
+            <TextField fx:id="txtRFiltro" promptText="Ciudad exacta" prefWidth="220"/>
+            <Button text="Filtrar" onAction="#filtrarRepaso"/>
+            <Button text="Cargar todos" onAction="#cargarRepaso"/>
+          </HBox>
+          <TableView fx:id="tablaRepaso" prefHeight="220" minHeight="170">
+            <columns>
+              <TableColumn fx:id="rId" text="Id" prefWidth="65"/>
+              <TableColumn fx:id="rNombre" text="Nombre" prefWidth="240"/>
+              <TableColumn fx:id="rEmail" text="Email" prefWidth="310"/>
+              <TableColumn fx:id="rCiudad" text="Ciudad" prefWidth="240"/>
+            </columns>
+          </TableView>
+          <GridPane styleClass="formulario">
+            <columnConstraints><ColumnConstraints minWidth="80"/><ColumnConstraints hgrow="ALWAYS"/></columnConstraints>
+            <Label text="Nombre" GridPane.rowIndex="0"/><TextField fx:id="txtRNombre" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+            <Label text="Email" GridPane.rowIndex="1"/><TextField fx:id="txtREmail" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <Label text="Ciudad" GridPane.rowIndex="2"/><TextField fx:id="txtRCiudad" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+          </GridPane>
+          <FlowPane hgap="8" vgap="8">
+            <Button text="Crear cliente" onAction="#insertarRepaso" styleClass="principal"/>
+            <Button text="Actualizar seleccionado" onAction="#actualizarRepaso"/>
+            <Button text="Eliminar seleccionado" onAction="#eliminarRepaso"/>
+            <Button text="Limpiar" onAction="#limpiarRepaso"/>
+          </FlowPane>
+        </VBox></content></ScrollPane>
+      </Tab>
+      <Tab text="2. Objeto-relacional · nuevos contenidos">
+        <ScrollPane fitToWidth="true"><content><VBox styleClass="contenido">
+          <Label text="Completa ClienteDao según la guía. Cada botón usa una operación concreta; las tablas de ambas pestañas son independientes." wrapText="true" styleClass="nota"/>
+          <HBox spacing="8">
+            <TextField fx:id="txtOFiltro" promptText="Ciudad exacta" prefWidth="200"/>
+            <Button text="Filtrar" onAction="#filtrarObjetos"/>
+            <Button text="Cargar todos" onAction="#cargarObjetos"/>
+            <Button text="Consultar total" onAction="#totalObjetos"/>
+          </HBox>
+          <Label fx:id="lblTotal" text="Total en BD: pulsa Consultar total"/>
+          <TableView fx:id="tablaObjetos" prefHeight="150" minHeight="140">
+            <columns>
+              <TableColumn fx:id="oId" text="Id" prefWidth="55"/>
+              <TableColumn fx:id="oNombre" text="Nombre" prefWidth="150"/>
+              <TableColumn fx:id="oEmail" text="Email" prefWidth="200"/>
+              <TableColumn fx:id="oDireccion" text="Dirección compuesta" prefWidth="280"/>
+              <TableColumn fx:id="oTelefonos" text="Teléfonos" prefWidth="200"/>
+              <TableColumn fx:id="oJson" text="Preferencias JSONB" prefWidth="260"/>
+            </columns>
+          </TableView>
+          <GridPane styleClass="formulario">
+            <columnConstraints>
+              <ColumnConstraints minWidth="80"/><ColumnConstraints hgrow="ALWAYS" percentWidth="40"/>
+              <ColumnConstraints minWidth="80"/><ColumnConstraints hgrow="ALWAYS" percentWidth="40"/>
+            </columnConstraints>
+            <Label text="Nombre" GridPane.rowIndex="0"/><TextField fx:id="txtONombre" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <Label text="Email" GridPane.rowIndex="0" GridPane.columnIndex="2"/><TextField fx:id="txtOEmail" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+            <Label text="Calle" GridPane.rowIndex="1"/><TextField fx:id="txtOCalle" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            <Label text="Ciudad" GridPane.rowIndex="1" GridPane.columnIndex="2"/><TextField fx:id="txtOCiudad" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+            <Label text="CP" GridPane.rowIndex="2"/><TextField fx:id="txtOCp" promptText="Cinco cifras" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            <Label text="Teléfonos" GridPane.rowIndex="2" GridPane.columnIndex="2"/><TextField fx:id="txtOTelefonos" promptText="600111222;986111222" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+            <Label text="JSON" GridPane.rowIndex="3"/><TextArea fx:id="txtOJson" text="{&quot;canal&quot;:&quot;email&quot;}" prefRowCount="2" wrapText="true" GridPane.rowIndex="3" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
+          </GridPane>
+          <Label text="Crear usa todos los campos. Los otros botones cambian solo contacto, ciudad o JSON. Nombre, calle y CP no se editan después del alta en esta práctica." wrapText="true" styleClass="nota"/>
+          <FlowPane hgap="8" vgap="8">
+            <Button text="Crear cliente" onAction="#insertarObjetos" styleClass="principal"/>
+            <Button text="Actualizar email y teléfonos" onAction="#actualizarContacto"/>
+            <Button text="Cambiar ciudad (procedimiento)" onAction="#cambiarCiudad"/>
+            <Button text="Guardar JSON" onAction="#cambiarJson"/>
+            <Button text="Eliminar seleccionado" onAction="#eliminarObjetos"/>
+            <Button text="Limpiar" onAction="#limpiarObjetos"/>
+          </FlowPane>
+        </VBox></content></ScrollPane>
+      </Tab>
+    </tabs>
+  </TabPane></center>
+  <bottom><VBox styleClass="pie">
+    <Label fx:id="lblEstado" text="Preparado" wrapText="true"/>
+    <Label text="Docente: José Manuel Villar Ferradal" styleClass="nota"/>
+  </VBox></bottom>
+</BorderPane>

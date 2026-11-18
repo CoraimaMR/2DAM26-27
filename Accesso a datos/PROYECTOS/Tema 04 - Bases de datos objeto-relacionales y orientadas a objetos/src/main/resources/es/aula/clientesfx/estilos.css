@@ -1,0 +1,11 @@
+.root { -fx-font-family: "System"; -fx-font-size: 13px; -fx-background-color: #f3f6f8; }
+.cabecera { -fx-background-color: #173d53; -fx-padding: 12; -fx-spacing: 5; }
+.titulo { -fx-font-size: 23px; -fx-font-weight: bold; -fx-text-fill: white; }
+.subtitulo { -fx-text-fill: #d7eaf1; }
+.contenido { -fx-padding: 12; -fx-spacing: 8; }
+.formulario { -fx-background-color: white; -fx-padding: 10; -fx-hgap: 10; -fx-vgap: 7; }
+.pie { -fx-padding: 10 14; -fx-spacing: 4; -fx-background-color: #e8eff3; }
+.nota { -fx-text-fill: #425d70; }
+.button { -fx-padding: 7 12; -fx-cursor: hand; }
+.principal { -fx-background-color: #176e86; -fx-text-fill: white; }
+.table-view { -fx-fixed-cell-size: 32; }
