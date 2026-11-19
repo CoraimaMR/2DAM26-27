@@ -66,4 +66,11 @@
         android:textColor="#263238"
         android:layout_marginBottom="24dp" />
 
+    <Button
+        android:id="@+id/btnMapa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Ver mi ubicación" />
+
 </LinearLayout>

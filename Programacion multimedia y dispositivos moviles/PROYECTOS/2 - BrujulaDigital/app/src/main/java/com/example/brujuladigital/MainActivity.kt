@@ -64,7 +64,7 @@ class MainActivity : Activity(), SensorEventListener {
         sensorManager.unregisterListener(this)
     }
 
-    override fun onSensorChanged(event: SensorEvent) {
+    override fun onSensorChanged(event: SensorEvent) { // Cada vez que cambia un valor de cualquier sensor
         when (event.sensor.type) {
             Sensor.TYPE_ACCELEROMETER -> {
                 System.arraycopy(event.values,0, gravedad, 0, 3 )
@@ -94,6 +94,7 @@ class MainActivity : Activity(), SensorEventListener {
         val grados = (azimutGrados + 360f) % 360f
         txtGrados.text = "${grados.roundToInt() % 360} º"
         txtDireccion.text = obtenerPuntoCardinal(grados)
+        imgBrujula.rotation = -grados
     }
 
     private fun obtenerPuntoCardinal (grados: Float): String {
@@ -105,8 +106,19 @@ class MainActivity : Activity(), SensorEventListener {
         }
     }
 
-    override fun onAccuracyChanged(sensor: Sensor?, accoracy: Int) {
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+        if (sensor?.type != Sensor.TYPE_MAGNETIC_FIELD) {
+            return;
+        }
 
+        txtSensor.text =  when (accuracy) {
+            SensorManager.SENSOR_STATUS_UNRELIABLE -> "Precisión no fiable"
+            SensorManager.SENSOR_STATUS_ACCURACY_LOW -> "Precisión baja"
+            SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM -> "Precisión media"
+            SensorManager.SENSOR_STATUS_ACCURACY_HIGH -> "Precisión alta"
+            else -> "Precisión ??"
+        }
     }
+
 
 }

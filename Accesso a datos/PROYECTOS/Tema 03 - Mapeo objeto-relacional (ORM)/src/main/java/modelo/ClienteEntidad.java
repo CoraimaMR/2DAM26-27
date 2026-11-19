@@ -20,7 +20,7 @@ public class ClienteEntidad {
 
     protected ClienteEntidad() {
 
-    }
+    } // CONSTRUCTOR
 
     public ClienteEntidad(Integer id, String nombre, String email, boolean activo) {
         this.id = id;
