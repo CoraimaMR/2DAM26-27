@@ -1,4 +1,4 @@
-package dao.orm;
+package dao;
 
 import conexion.JpaUtil;
 import jakarta.persistence.EntityManager;

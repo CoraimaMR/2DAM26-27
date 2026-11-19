@@ -2,7 +2,7 @@ package app;
 
 import conexion.JpaUtil;
 import jakarta.persistence.EntityManager;
-import modelo.orm.ClienteEntidad;
+import modelo.ClienteEntidad;
 
 import java.util.List;
 

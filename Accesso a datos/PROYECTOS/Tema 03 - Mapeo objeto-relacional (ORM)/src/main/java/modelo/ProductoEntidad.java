@@ -1,4 +1,4 @@
-package modelo.orm;
+package modelo;
 
 public class ProductoEntidad {
 }

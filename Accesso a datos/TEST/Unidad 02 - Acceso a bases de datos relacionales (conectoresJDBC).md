@@ -47,13 +47,13 @@ Para evitar que la aplicación utilice el superusuario `postgres`, se crea un us
 
 ### Resumen de Sentencias SQL de Administración
 
-| Sentencia SQL | Función Exacta |
-| :--- | :--- |
-| `CREATE USER tienda_app WITH PASSWORD '...';` | Define un rol con capacidad de inicio de sesión y establece su contraseña. |
-| `CREATE DATABASE tienda_ud2;` | Crea una base de datos nueva en el servidor (requiere privilegios de creación de BD). |
-| `GRANT CONNECT ON DATABASE tienda_ud2 TO tienda_app;` | Concede permiso para iniciar conexión con esa base de datos (no da acceso a tablas por sí solo). |
-| `GRANT USAGE ON SCHEMA public TO tienda_app;` | Permite acceder y resolver nombres dentro del esquema `public` (los permisos sobre tablas se dan aparte). |
-| `GRANT CREATE ON SCHEMA public TO tienda_app;` | Autoriza a crear objetos (como tablas o vistas) dentro del esquema `public`. |
+| Sentencia SQL                                                                          | Función Exacta                                                                                                         |
+| :------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------- |
+| `CREATE USER tienda_app WITH PASSWORD '...';`                                        | Define un rol con capacidad de inicio de sesión y establece su contraseña.                                            |
+| `CREATE DATABASE tienda_ud2;`                                                        | Crea una base de datos nueva en el servidor (requiere privilegios de creación de BD).                                  |
+| `GRANT CONNECT ON DATABASE tienda_ud2 TO tienda_app;`                                | Concede permiso para iniciar conexión con esa base de datos (no da acceso a tablas por sí solo).                      |
+| `GRANT USAGE ON SCHEMA public TO tienda_app;`                                        | Permite acceder y resolver nombres dentro del esquema `public` (los permisos sobre tablas se dan aparte).             |
+| `GRANT CREATE ON SCHEMA public TO tienda_app;`                                       | Autoriza a crear objetos (como tablas o vistas) dentro del esquema `public`.                                          |
 | `GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO tienda_app;` | Concede operaciones de manipulación de datos (DML) sobre las tablas **existentes** en ese momento en el esquema. |
 
 ---
@@ -142,11 +142,13 @@ Connection ──> PreparedStatement
 ### Operaciones CRUD Detalladas
 
 #### 1. Consultar (`SELECT`) — `listar()`
+
 * Se ejecuta mediante **`ps.executeQuery()`**, obteniendo un objeto **`ResultSet`**.
 * El cursor del `ResultSet` se sitúa inicialmente **antes de la primera fila**. Es obligatorio llamar a **`rs.next()`** antes de leer datos para avanzar el cursor y verificar si existe una fila.
 * Lectura de campos: `rs.getInt("id")`, `rs.getString("nombre")`, `rs.getBoolean("activo")`.
 
 #### 2. Insertar (`INSERT`) y Recuperar Clave Generada — `insertar(Cliente c)`
+
 * Sentencia SQL: `INSERT INTO cliente(nombre, email, activo) VALUES (?, ?, ?)`.
 * Se prepara con **`Statement.RETURN_GENERATED_KEYS`** para indicar al driver que recupere el `id` autogenerado por PostgreSQL.
 * Se ejecuta con **`ps.executeUpdate()`**.
@@ -160,12 +162,14 @@ Connection ──> PreparedStatement
   ```
 
 #### 3. Actualizar (`UPDATE`) — `actualizar(Cliente c)`
+
 * Sentencia SQL: `UPDATE cliente SET nombre = ?, email = ?, activo = ? WHERE id = ?`.
 * **Cláusula `WHERE id = ?`:** Es esencial para modificar **únicamente** el cliente seleccionado; sin `WHERE`, se modificarían todas las filas de la tabla.
 * **`ps.executeUpdate()`** devuelve un entero (`int`) con el **número de filas afectadas**.
 * La expresión `return ps.executeUpdate() == 1;` devuelve `true` si se actualizó exactamente una fila.
 
 #### 4. Eliminar (`DELETE`) — `eliminar(int id)`
+
 * Sentencia SQL: `DELETE FROM cliente WHERE id = ?`.
 * Al igual que en la actualización, `ps.executeUpdate() == 1` confirma que se borró exactamente un registro.
 
@@ -174,121 +178,122 @@ Connection ──> PreparedStatement
 # PARTE II: CUESTIONARIO RESUELTO Y COMENTADO (30 PREGUNTAS)
 
 1. **¿Qué sentencia crea un usuario con contraseña en PostgreSQL?**
+
    * **Respuesta correcta:** `CREATE USER tienda_app WITH PASSWORD ...`
    * **Explicación:** `CREATE USER` define un rol con capacidad de inicio de sesión; `PASSWORD` establece su contraseña.
-
 2. **¿Qué sentencia crea la base de datos `tienda_ud2`?**
+
    * **Respuesta correcta:** `CREATE DATABASE tienda_ud2;`
    * **Explicación:** `CREATE DATABASE` crea una base de datos nueva; requiere los privilegios correspondientes.
-
 3. **¿Qué concede `GRANT CONNECT ON DATABASE tienda_ud2 TO tienda_app`?**
+
    * **Respuesta correcta:** Permiso para conectarse a esa base.
    * **Explicación:** `CONNECT` permite iniciar conexión a la base, sin conceder por sí solo acceso a las tablas.
-
 4. **¿Para qué sirve `GRANT USAGE ON SCHEMA public TO tienda_app`?**
+
    * **Respuesta correcta:** Permite utilizar objetos del esquema según otros permisos.
    * **Explicación:** `USAGE` permite resolver nombres del esquema; los permisos sobre tablas se conceden aparte.
-
 5. **¿Qué permite `GRANT CREATE ON SCHEMA public TO tienda_app`?**
+
    * **Respuesta correcta:** Crear objetos dentro del esquema `public`.
    * **Explicación:** `CREATE` sobre un esquema autoriza la creación de objetos (tablas, vistas, etc.) dentro de él.
-
 6. **¿Qué efecto tiene `GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public`?**
+
    * **Respuesta correcta:** Concede operaciones DML sobre tablas existentes.
    * **Explicación:** La sentencia concede esos privilegios sobre las tablas existentes del esquema en ese momento.
-
 7. **¿Qué significa `GENERATED ALWAYS AS IDENTITY` en la columna `id`?**
+
    * **Respuesta correcta:** Que PostgreSQL genera su valor automáticamente.
    * **Explicación:** `IDENTITY` permite generar identificadores; `GENERATED ALWAYS` restringe valores explícitos salvo excepciones.
-
 8. **¿Qué restricción impide repetir el email en la tabla `cliente`?**
+
    * **Respuesta correcta:** `UNIQUE (email)`
    * **Explicación:** `UNIQUE` exige que los valores no nulos de la columna sean únicos en toda la tabla.
-
 9. **¿Qué restricción identifica de forma única una fila de `cliente`?**
+
    * **Respuesta correcta:** `PRIMARY KEY (id)`
    * **Explicación:** La clave primaria identifica registros de forma inequívoca y exige unicidad y no nulidad.
-
 10. **¿Qué consigue `CHECK (precio >= 0)` en `producto`?**
+
     * **Respuesta correcta:** Rechazar precios negativos.
     * **Explicación:** `CHECK` verifica la condición lógica en cada fila insertada o actualizada.
-
 11. **¿Qué representa `NUMERIC(10,2)` para `precio` en PostgreSQL?**
+
     * **Respuesta correcta:** Un decimal con precisión 10 y escala 2.
     * **Explicación:** `NUMERIC(10,2)` permite hasta 10 dígitos significativos en total, dos de ellos tras la coma decimal.
-
 12. **¿Qué efecto tiene `DEFAULT TRUE` sobre `activo`?**
+
     * **Respuesta correcta:** Asigna `true` cuando se omite esa columna.
     * **Explicación:** `DEFAULT TRUE` se aplica automáticamente cuando el `INSERT` no especifica el valor de `activo`.
-
 13. **¿Qué hace una `FOREIGN KEY producto_id REFERENCES producto(id)`?**
+
     * **Respuesta correcta:** Exige referencias válidas a productos.
     * **Explicación:** La clave foránea garantiza integridad referencial entre `movimiento_stock` y `producto`.
-
 14. **¿Qué sentencia añade una fila nueva a `cliente`?**
+
     * **Respuesta correcta:** `INSERT INTO cliente(nombre,email,activo) VALUES (?,?,?)`
     * **Explicación:** `INSERT INTO ... VALUES` inserta nuevos registros; los `?` son marcadores de parámetros para `PreparedStatement`.
-
 15. **¿Qué método de JDBC se utiliza para establecer una conexión con una base de datos mediante una URL, un usuario y una contraseña?**
+
     * **Respuesta correcta:** `DriverManager.getConnection()`
     * **Explicación:** Establece una conexión JDBC utilizando la URL y credenciales, devolviendo un objeto `Connection`.
-
 16. **¿Qué representa `jdbc:postgresql://localhost:5432/tienda_ud2`?**
+
     * **Respuesta correcta:** La URL JDBC de conexión a PostgreSQL.
     * **Explicación:** La cadena incluye protocolo JDBC, gestor, servidor, puerto y nombre de la base de datos.
-
 17. **¿Qué método de `DriverManager` establece una conexión JDBC?**
+
     * **Respuesta correcta:** `getConnection()`
     * **Explicación:** `DriverManager.getConnection()` solicita y devuelve una conexión mediante el controlador adecuado.
-
 18. **¿Qué excepción se declara normalmente en métodos JDBC que pueden fallar?**
+
     * **Respuesta correcta:** `SQLException`
     * **Explicación:** `SQLException` es la excepción comprobada habitual de acceso a datos en JDBC.
-
 19. **¿Qué objeto JDBC prepara una sentencia SQL con parámetros `?`?**
+
     * **Respuesta correcta:** `PreparedStatement`
     * **Explicación:** `PreparedStatement` permite asignar parámetros tipados de forma segura antes de ejecutar el SQL.
-
 20. **¿En qué posición comienza la numeración de parámetros de `PreparedStatement`?**
+
     * **Respuesta correcta:** `1`
     * **Explicación:** Los parámetros `?` se numeran desde `1`, a diferencia de los índices de arrays en Java que empiezan en `0`.
-
 21. **¿Qué llamada asigna un booleano al tercer parámetro?**
+
     * **Respuesta correcta:** `ps.setBoolean(3, valor)`
     * **Explicación:** `setBoolean(indice, valor)` enlaza un parámetro de tipo `boolean` en la posición indicada (`3`).
-
 22. **¿Qué método se usa para ejecutar un `SELECT` y obtener filas?**
+
     * **Respuesta correcta:** `executeQuery()`
     * **Explicación:** `executeQuery()` ejecuta consultas de lectura y devuelve un `ResultSet` con los registros.
-
 23. **¿Qué debe hacerse antes de leer la primera fila de un `ResultSet`?**
+
     * **Respuesta correcta:** Llamar a `rs.next()`
     * **Explicación:** El cursor empieza antes de la primera fila; `next()` avanza a la siguiente fila y devuelve `true` si existe.
-
 24. **¿Qué llamada recupera la columna `activo` como `boolean`?**
+
     * **Respuesta correcta:** `rs.getBoolean("activo")`
     * **Explicación:** `ResultSet.getBoolean` lee el valor booleano de la columna indicada en la fila actual.
-
 25. **¿Qué devuelve `executeUpdate()` tras un `UPDATE` habitual?**
+
     * **Respuesta correcta:** El número de filas afectadas.
     * **Explicación:** `executeUpdate()` devuelve un `int` indicando cuántas filas fueron modificadas, insertadas o borradas.
-
 26. **¿Para qué se usa `Statement.RETURN_GENERATED_KEYS` al insertar?**
+
     * **Respuesta correcta:** Para solicitar los identificadores generados.
     * **Explicación:** Indica al driver que retenga las claves autogeneradas para recuperarlas después con `getGeneratedKeys()`.
-
 27. **¿Qué hace `cliente.setId(claves.getInt(1))` después de insertar?**
+
     * **Respuesta correcta:** Guarda en el objeto el ID generado.
     * **Explicación:** Lee la primera columna del `ResultSet` de claves generadas y la asigna al atributo `id` del objeto `Cliente`.
-
 28. **¿Por qué es esencial `WHERE id = ?` en `actualizar()`?**
+
     * **Respuesta correcta:** Para modificar solo el cliente elegido.
     * **Explicación:** Sin cláusula `WHERE`, un `UPDATE` sobrescribiría todas las filas de la tabla `cliente`.
-
 29. **¿Qué significa `return ps.executeUpdate() == 1` en `actualizar()`?**
+
     * **Respuesta correcta:** Devuelve `true` si afectó exactamente una fila.
     * **Explicación:** Compara el número de filas modificadas con `1` y devuelve el resultado booleano de esa comprobación.
-
 30. **¿Qué responsabilidad corresponde a `ClienteDAO` en el proyecto Swing?**
+
     * **Respuesta correcta:** Ejecutar SQL y mapear filas a `Cliente`.
     * **Explicación:** La clase DAO aísla toda la lógica de persistencia, mientras que `VentanaPrincipal` se ocupa de la interfaz gráfica.

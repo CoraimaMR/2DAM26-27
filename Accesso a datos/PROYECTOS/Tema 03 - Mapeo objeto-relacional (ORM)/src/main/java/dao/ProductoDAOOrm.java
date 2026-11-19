@@ -1,4 +1,4 @@
-package dao.orm;
+package dao;
 
 public class ProductoDAOOrm {
 }

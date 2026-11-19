@@ -1,8 +1,8 @@
 package app;
 
 import conexion.JpaUtil;
-import dao.orm.ClienteDAOOrm;
-import modelo.orm.ClienteEntidad;
+import dao.ClienteDAOOrm;
+import modelo.ClienteEntidad;
 
 import java.util.List;
 

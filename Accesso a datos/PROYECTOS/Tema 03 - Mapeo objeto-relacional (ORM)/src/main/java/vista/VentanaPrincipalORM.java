@@ -2,10 +2,10 @@ package vista;
 
 import conexion.JpaUtil;
 import jakarta.persistence.EntityManager;
-import dao.orm.ClienteDAOOrm;
-import dao.orm.ProductoDAOOrm;
-import modelo.orm.ClienteEntidad;
-import modelo.orm.ProductoEntidad;
+import dao.ClienteDAOOrm;
+import dao.ProductoDAOOrm;
+import modelo.ClienteEntidad;
+import modelo.ProductoEntidad;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

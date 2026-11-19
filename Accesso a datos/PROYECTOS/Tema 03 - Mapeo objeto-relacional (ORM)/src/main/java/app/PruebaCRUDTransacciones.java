@@ -3,7 +3,7 @@ package app;
 import conexion.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
-import modelo.orm.ClienteEntidad;
+import modelo.ClienteEntidad;
 
 public class PruebaCRUDTransacciones {
     public static void main(String[] args) {

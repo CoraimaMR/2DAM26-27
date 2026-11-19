@@ -1,4 +1,4 @@
-package modelo.orm;
+package modelo;
 
 import jakarta.persistence.*;
 

@@ -1,6 +1,7 @@
 # Guía de Acceso a Datos: Diferencias entre DAO (JDBC) y ORM (JPA/Hibernate)
 
 Este documento explica cómo se conecta una aplicación Java a una base de datos relacional (**PostgreSQL**) comparando dos enfoques de persistencia presentes en el proyecto **`DAM-ACCESO_A_DATOS_ALAMBRES_RAMIRO`**:
+
 1. **Enfoque Clásico DAO + JDBC** (`Main`, `ConexionBD`, `ClienteDAO`, `Cliente`, `VentanaPrincipal`).
 2. **Enfoque Moderno ORM con JPA** (`MainORM`, `JpaUtil`, `persistence.xml`, `ClienteDAOOrm`, `ClienteEntidad`, `TransaccionesORM`, `VentanaPrincipalORM`).
 
@@ -76,7 +77,9 @@ Ambos sistemas (JDBC y ORM) trabajan contra el mismo esquema relacional en Postg
 ## 3. Análisis Detallado: DAO con JDBC vs. DAO con ORM (JPA)
 
 ### A. ¿Qué es el enfoque DAO con JDBC puro?
+
 En este enfoque, el programador tiene el **control total y manual** sobre la comunicación con la base de datos:
+
 1. **Conexión (`ConexionBD.java`):** Se solicita una conexión física `Connection` mediante `DriverManager.getConnection(URL, USER, PASS)`.
 2. **Modelo (`Cliente.java`):** Es un POJO (*Plain Old Java Object*) limpio, sin anotaciones ni dependencias de librerías externas.
 3. **Acceso a Datos (`ClienteDAO.java`):**
@@ -86,7 +89,9 @@ En este enfoque, el programador tiene el **control total y manual** sobre la com
    * Debe gestionar manualmente las claves autogeneradas (`Statement.RETURN_GENERATED_KEYS`).
 
 ### B. ¿Qué es el enfoque ORM (Object-Relational Mapping) con JPA?
+
 Un **ORM** (como Hibernate, implementado a través del estándar **JPA** configurado en `META-INF/persistence.xml`) actúa como un traductor automático entre el mundo orientado a objetos de Java y el mundo relacional de SQL:
+
 1. **Configuración y Fábrica (`persistence.xml` y `JpaUtil.java`):**
    * Los datos de conexión, el dialecto de PostgreSQL y el comportamiento del esquema se definen en `src/main/resources/META-INF/persistence.xml`.
    * `JpaUtil` mantiene una única instancia de `EntityManagerFactory` para toda la aplicación, a partir de la cual se obtienen objetos `EntityManager` (equivalentes a una sesión de trabajo con la BD).
@@ -126,15 +131,15 @@ Un **ORM** (como Hibernate, implementado a través del estándar **JPA** configu
 
 ## 5. Tabla Comparativa: DAO (JDBC) vs. ORM (JPA)
 
-| Característica | DAO Tradicional (JDBC) | ORM (JPA / Hibernate) |
-| :--- | :--- | :--- |
-| **Clases del proyecto** | `ConexionBD`, `Cliente`, `ClienteDAO`, `VentanaPrincipal` | `JpaUtil`, `persistence.xml`, `ClienteEntidad`, `ClienteDAOOrm`, `TransaccionesORM`, `VentanaPrincipalORM` |
-| **Lenguaje de consulta** | **SQL nativo** dependiente del motor (PostgreSQL). | **JPQL** (orientado a objetos, independiente del motor) o métodos del `EntityManager`. |
-| **Mapeo Objeto <-> Tabla** | **Manual:** El programador lee el `ResultSet` columna a columna. | **Automático:** Mediante anotaciones (`@Entity`, `@Id`, `@Column`) en `ClienteEntidad`. |
-| **Configuración de BD** | Constantes Java en `ConexionBD.java`. | Fichero estándar `META-INF/persistence.xml`. |
-| **Objeto central de trabajo** | `Connection`, `PreparedStatement`, `ResultSet`. | `EntityManagerFactory`, `EntityManager`, `EntityTransaction`. |
-| **Gestión de IDs generados** | Manual con `Statement.RETURN_GENERATED_KEYS` y `getGeneratedKeys()`. | Automática mediante `@GeneratedValue(strategy = GenerationType.IDENTITY)` al hacer `commit()`. |
-| **Gestión de transacciones** | Auto-commit activado por defecto (o manual con `con.setAutoCommit(false)`). | **Obligatoria y explícita** (`begin()`, `commit()`, `rollback()`) para cualquier escritura. |
+| Característica                          | DAO Tradicional (JDBC)                                                                                      | ORM (JPA / Hibernate)                                                                                                                                        |
+| :--------------------------------------- | :---------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Clases del proyecto**            | `ConexionBD`, `Cliente`, `ClienteDAO`, `VentanaPrincipal`                                           | `JpaUtil`, `persistence.xml`, `ClienteEntidad`, `ClienteDAOOrm`, `TransaccionesORM`, `VentanaPrincipalORM`                                       |
+| **Lenguaje de consulta**           | **SQL nativo** dependiente del motor (PostgreSQL).                                                    | **JPQL** (orientado a objetos, independiente del motor) o métodos del `EntityManager`.                                                              |
+| **Mapeo Objeto <-> Tabla**         | **Manual:** El programador lee el `ResultSet` columna a columna.                                    | **Automático:** Mediante anotaciones (`@Entity`, `@Id`, `@Column`) en `ClienteEntidad`.                                                       |
+| **Configuración de BD**           | Constantes Java en `ConexionBD.java`.                                                                     | Fichero estándar `META-INF/persistence.xml`.                                                                                                              |
+| **Objeto central de trabajo**      | `Connection`, `PreparedStatement`, `ResultSet`.                                                       | `EntityManagerFactory`, `EntityManager`, `EntityTransaction`.                                                                                          |
+| **Gestión de IDs generados**      | Manual con `Statement.RETURN_GENERATED_KEYS` y `getGeneratedKeys()`.                                    | Automática mediante `@GeneratedValue(strategy = GenerationType.IDENTITY)` al hacer `commit()`.                                                          |
+| **Gestión de transacciones**      | Auto-commit activado por defecto (o manual con `con.setAutoCommit(false)`).                               | **Obligatoria y explícita** (`begin()`, `commit()`, `rollback()`) para cualquier escritura.                                                     |
 | **Curva de aprendizaje y código** | Más código repetitivo (*boilerplate*), pero control total y máximo rendimiento en consultas complejas. | Menos código CRUD, portabilidad entre bases de datos, pero requiere entender el ciclo de vida de las entidades (*Managed*, *Detached*) y transacciones. |
 
 ---
