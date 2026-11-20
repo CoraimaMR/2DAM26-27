@@ -7,3 +7,4 @@
 5.	Muestra la suma de cada fila.
 6.	Muestra la suma de cada columna.
 7.	Calcula la media de todos los elementos.'''
+print(f"\n------------ MATRICES ------------")

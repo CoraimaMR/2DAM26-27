@@ -7,6 +7,7 @@ Muestra:
 •	Bien
 •	Notable
 •	Sobresaliente'''
+print(f"\n------------ EJERCICIO 06 ------------")
 nota = int(input("Ingrese una nota: "))
 
 if nota >= 0 and nota < 5:
@@ -24,6 +25,7 @@ else:
 
 '''Ejercicio 7
 Pide un año y determina si es bisiesto.'''
+print(f"\n------------ EJERCICIO 07 ------------")
 año = int(input("Ingrese un año: "))
 
 if (año % 4 == 0 and año % 100 != 0) or (año % 400 == 0):
@@ -36,6 +38,7 @@ Solicita usuario y contraseña.
 Valida:
 usuario = "admin"
 password = "1234"'''
+print(f"\n------------ EJERCICIO 08 ------------")
 usuario = input("Ingrese su usuario: ")
 contraseña = input("Ingrese su contraseña: ")
 
@@ -46,6 +49,7 @@ else:
 
 '''Ejercicio 9
 Pide un número del 1 al 7 y muestra el día de la semana usando match.'''
+print(f"\n------------ EJERCICIO 09 ------------")
 nSemana = int(input("Ingrese un número de a la semana: "))
 
 if 1 <= nSemana <= 7:
@@ -71,6 +75,7 @@ else:
 Solicita el precio de un producto y aplica:
 •	5% descuento si supera 100 €
 •	10% si supera 500 €'''
+print(f"\n------------ EJERCICIO 10 ------------")
 precio = int(input("Ingrese el precio de un producto: "))
 
 if precio < 100:
