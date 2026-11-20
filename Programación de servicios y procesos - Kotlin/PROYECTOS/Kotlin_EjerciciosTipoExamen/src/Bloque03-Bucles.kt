@@ -1,3 +1,4 @@
+fun main() {
 
 /*Ejercicio 11
 Mostrar por pantalla los números del 1 al 100.*/
@@ -13,3 +14,5 @@ Calcular la suma de los números del 1 al 100.*/
 
 /*Ejercicio 15
 Mostrar la tabla de multiplicar de un número introducido por el usuario.*/
+
+}

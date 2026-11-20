@@ -1,0 +1,7 @@
+/*Actividad
+Construye un modelo para representar los distintos estados de una conexión de red mediante sealed classes.
+Gestiona cada posible estado utilizando una estructura when que contemple todos los casos existentes.*/
+
+fun main() {
+
+}

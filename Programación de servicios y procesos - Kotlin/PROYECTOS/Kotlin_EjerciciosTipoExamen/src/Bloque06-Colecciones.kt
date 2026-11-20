@@ -1,3 +1,4 @@
+fun main() {
 
 /*Ejercicio 26
 Crear una lista mutable de nombres.
@@ -14,3 +15,5 @@ Ordenar una lista alfabéticamente.*/
 
 /*Ejercicio 30
 Contar cuántos elementos contiene una lista.*/
+
+}

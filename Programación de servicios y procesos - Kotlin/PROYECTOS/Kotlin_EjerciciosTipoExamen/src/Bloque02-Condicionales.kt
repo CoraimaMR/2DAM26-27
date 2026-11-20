@@ -1,3 +1,4 @@
+fun main() {
 
 /*Ejercicio 6
 Solicita una nota entre 0 y 10 y muestra:
@@ -23,3 +24,5 @@ Operaciones:
 - *
 - /
 */
+
+}

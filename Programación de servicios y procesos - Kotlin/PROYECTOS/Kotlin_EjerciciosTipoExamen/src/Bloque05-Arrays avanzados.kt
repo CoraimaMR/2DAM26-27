@@ -1,3 +1,4 @@
+fun main() {
 
 /*Ejercicio 21
 Invertir un array sin utilizar `reversed()`.*/
@@ -22,3 +23,5 @@ Resultado:
 
 /*Ejercicio 25
 Determinar si dos arrays contienen exactamente los mismos elementos.*/
+
+}

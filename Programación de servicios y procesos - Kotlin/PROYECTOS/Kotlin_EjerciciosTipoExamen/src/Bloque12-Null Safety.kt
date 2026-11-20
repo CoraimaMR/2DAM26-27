@@ -1,3 +1,4 @@
+fun main() {
 
 /*Ejercicio 49
 Crear una función que reciba un `String?` y devuelva su longitud. Si es nulo devolverá 0.*/
@@ -16,3 +17,5 @@ val nombres = listOf(
 ```
 
 Mostrar únicamente los nombres no nulos.*/
+
+}

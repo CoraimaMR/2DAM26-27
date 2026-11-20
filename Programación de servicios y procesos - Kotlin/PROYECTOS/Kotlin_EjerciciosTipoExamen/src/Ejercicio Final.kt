@@ -1,4 +1,3 @@
-
 /*Desarrolla una aplicación de gestión de alumnos que:
 1. Cree una data class Alumno.
 2. Permita almacenar alumnos en una MutableList.
@@ -11,3 +10,7 @@
 9. Utilice una función con vararg.
 10. Utilice Null Safety.
 11. Muestre toda la información por pantalla utilizando forEach.*/
+
+fun main() {
+
+}

@@ -1,3 +1,4 @@
+fun main() {
 
 /*Ejercicio 16
 Crear un array de 10 enteros e imprimir todos sus elementos.*/
@@ -13,3 +14,5 @@ Calcular la media de los elementos de un array.*/
 
 /*Ejercicio 20
 Contar cuántos números pares contiene un array.*/
+
+}

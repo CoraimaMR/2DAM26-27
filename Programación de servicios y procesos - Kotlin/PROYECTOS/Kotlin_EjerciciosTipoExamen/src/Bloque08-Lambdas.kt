@@ -1,3 +1,4 @@
+fun main() {
 
 /*Ejercicio 36
 Crear una lambda que calcule el doble de un número.*/
@@ -13,3 +14,5 @@ Crear una lambda que determine si un número es positivo.*/
 
 /*Ejercicio 40
 Crear una lambda que reciba una cadena y devuelva su longitud.*/
+
+}

@@ -1,3 +1,4 @@
+fun main() {
 
 /*Ejercicio 31
 Dada una lista de números, generar una nueva lista con los cuadrados utilizando `map`.*/
@@ -13,3 +14,5 @@ Multiplicar todos los números por 10 utilizando `map`.*/
 
 /*Ejercicio 35
 Calcular la suma de todos los números usando `reduce`.*/
+
+}

@@ -1,0 +1,7 @@
+/*Actividad
+Desarrolla una herramienta para configurar perfiles de usuario haciendo uso de las distintas
+scope functions de Kotlin (let, run, with, apply y also), aplicando cada una en el contexto más adecuado.*/
+
+fun main() {
+
+}
