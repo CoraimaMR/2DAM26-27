@@ -1,0 +1,4 @@
+OLGA GITHUB: [https://github.com/olga3emes/2DAM-CM-2627.git](https://github.com/olga3emes/2DAM-CM-2627.git)
+
+AWS: [https://awsacademy.instructure.com/](https://awsacademy.instructure.com/)
+
