@@ -111,12 +111,12 @@ class MainActivity : Activity(), SensorEventListener {
             return;
         }
 
-        txtSensor.text =  when (accuracy) {
+        txtSensor.text = when (accuracy) {
             SensorManager.SENSOR_STATUS_UNRELIABLE -> "Precisión no fiable"
-            SensorManager.SENSOR_STATUS_ACCURACY_LOW -> "Precisión baja"
-            SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM -> "Precisión media"
-            SensorManager.SENSOR_STATUS_ACCURACY_HIGH -> "Precisión alta"
-            else -> "Precisión ??"
+            SensorManager.SENSOR_STATUS_ACCURACY_LOW-> "Precisión BAJA"
+            SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM-> "Precisión MEDIA"
+            SensorManager.SENSOR_STATUS_ACCURACY_HIGH-> "Precisión ALTA"
+            else -> "precisión desconocida"
         }
     }
 
