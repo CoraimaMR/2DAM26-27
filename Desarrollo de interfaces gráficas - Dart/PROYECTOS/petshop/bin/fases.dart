@@ -139,7 +139,6 @@ void main() async {
     Cliente(3, 'Marta', 'marta@email.com', null, null),
   ];
 
-  print('');
   for (final cliente in clientes) {
     cliente.mostrarInformacion();
   }
@@ -153,6 +152,8 @@ void main() async {
   for (final mascota in mascotasNulas) {
     mascota.mostrarInformacion();
   }
+
+  // ???
 
   // print('\n=========== FASE 06: EXTENSIONS ===========');
 }

@@ -12,12 +12,85 @@ public final class ClienteDao implements ClienteRepository {
         """;
 
     @Override public List<Cliente> listar(String ciudad) throws SQLException {
-        //???????????
+        String sql = SELECT + (ciudad == null ? "" : " WHERE (direccion).ciudad = ?") + " ORDER BY id";
+        List<Cliente> clientes = new ArrayList<>();
+        try (Connection con = Conexion.abrir();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            if (ciudad != null) {
+                ps.setString(1, ciudad);
+            }
+            try (ResultSet resultado = ps.executeQuery()) {
+                while (resultado.next()) {
+                    Direccion direccion = new Direccion(
+                            resultado.getString("calle"),
+                            resultado.getString("ciudad"),
+                            resultado.getString("cp")
+                    );
+                    java.sql.Array arraySql = resultado.getArray("telefonos");
+                    List<String> telefonos = new ArrayList<>();
+                    if (arraySql != null) {
+                        try {
+                            String[] valores = (String[]) arraySql.getArray();
+                            telefonos.addAll(Arrays.asList(valores)
+                            );
+                        } finally {
+                            arraySql.free();
+                        }
+                    }
+                    String preferencias = resultado.getString("preferencias");
+                    Cliente cliente = new Cliente(
+                            resultado.getLong("id"),
+                            resultado.getString("nombre"),
+                            resultado.getString("email"),
+                            direccion,
+                            telefonos,
+                            preferencias
+                    );
+                    clientes.add(cliente);
+                }
+            }
+        }
+        return clientes;
     }
 
     @Override public long insertar(Cliente cliente) throws SQLException {
-        // TODO 2: construir ROW y enviar java.sql.Array
-        throw new SQLException("Pendiente de implementar: insertar (paso 2)", "0A000");
+        String sql = """
+                INSERT INTO public.cliente (
+                 nombre,
+                 email,
+                 direccion,
+                 telefonos,
+                 preferencias
+                 ) VALUES (
+                 ?,
+                 ?,
+                 ROW(?, ?, ?)::public.direccion_tipo,
+                 ?,
+                 ?::jsonb
+                 )
+                 RETURNING id
+                """;
+        try(Connection conexion = Conexion.abrir();
+            PreparedStatement ps = conexion.prepareStatement(sql)){
+            ps.setString(1, cliente.nombre());
+            ps.setString(2, cliente.email());
+            ps.setString(3, cliente.direccion().calle());
+            ps.setString(4, cliente.direccion().ciudad());
+            ps.setString(5, cliente.direccion().codigoPostal());
+            java.sql.Array arraySql = conexion.createArrayOf( "text", cliente.telefonos().toArray());
+            try {
+                ps.setArray(6, arraySql);
+                ps.setString(7, cliente.preferenciasJson());
+                try(ResultSet resultado = ps.executeQuery()) {
+                    if(!resultado.next()){
+                        throw new SQLException("INSERT no hay identificador");
+                    }
+                    return resultado.getLong(1);
+                }
+            } finally {
+                arraySql.free();
+            }
+        }
     }
 
     @Override public boolean actualizarContacto(long id,String email,List<String> telefonos) throws SQLException {
