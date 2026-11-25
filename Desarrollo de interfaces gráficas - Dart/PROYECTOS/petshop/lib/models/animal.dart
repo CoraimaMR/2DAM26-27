@@ -5,10 +5,16 @@ abstract class Animal {
 
   Animal(this.nombre, this.edad);
 
-  void emitirSonido();
+  String emitirSonido();
 
   void mostrarFicha() {
     print("$nombre - $edad años");
   }
 
+  void presentar() {
+    print("\nHola, soy $nombre.");
+    print("Soy un ${runtimeType.toString().toLowerCase()}.");
+    print("Tengo $edad años.");
+    print(emitirSonido());
+  }
 }

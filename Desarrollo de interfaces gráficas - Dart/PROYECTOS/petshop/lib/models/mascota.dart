@@ -1,3 +1,4 @@
+import 'package:petshop/services/venta_service.dart';
 
 class Mascota {
 
@@ -8,6 +9,7 @@ class Mascota {
   int _edad;
   double _precio;
   bool _disponible;
+  int _descuento = 10;
 
   // Constructores
   Mascota(
@@ -42,6 +44,17 @@ class Mascota {
       print(
         '$_nombre ($_especie) - $_edad años - $_precio €'
       );
+    }
+
+    void generarTicket() {
+      final ventaService = VentaService();
+      print('''
+\n===== TICKET =====
+Mascota: $nombre
+Precio original: $precio €
+Descuento: $_descuento %
+Precio final: ${ventaService.calcularDescuento(precio)} €
+==================''');
     }
     
     @override

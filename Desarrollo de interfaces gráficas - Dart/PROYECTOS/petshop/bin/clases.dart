@@ -37,22 +37,16 @@ void main() async {
 
   // // ----------- CLASE 03 -----------
   // // Creación de funciones de cálculo
-  // var calculo1 = calcularIVA(100);
-  // var calculo2 = calcularPrecioFinal(100, 20);
-  // var calculo3 = calcularVenta(precio: 100, descuento: 20);
-  // var calculo4 = calcularPrecioConIVA(calcularVenta(precio: 100, descuento: 20));
-  // var calculo5 = aplicarDescuento(100, 20);
-  // var calculo6 = calcularVenta3(precio: 100, descuento: null);
-
+  // final ventaService = VentaService();
+  
+  // var calculo1 = ventaService.calcularDescuento(100);
+  // var calculo2 = ventaService.calcularDescuento(100, porcentaje: 0.2);
+ 
   // print("\n=== RESULTADOS ===");
-  // print("IVA de 100: $calculo1 €");
-  // print("Precio final de 100 con descuento de 20: $calculo2 €");
-  // print("Precio final de 100 con descuento de 20 (usando named parameters): $calculo3 €");
-  // print("Precio final de 100 con descuento de 20 y con IVA: $calculo4 €");
-  // print("Precio final de 100 con descuento de 20 (usando arrow function): $calculo5 €");
-  // print("Precio final de 100 con descuento nulo:"); $calculo6 €
+  // print("Precio de 100 con descuento de 10: $calculo1 €");
+  // print("Precio de 100 con descuento de 20: $calculo2 €");
 
-  // ----------- CLASE 04 -----------
+  // // ----------- CLASE 04 -----------
   // // Creación de instancias de las extensiones de la clase Animal
   // final coco = Perro("Coco", 3);
   // print("\n=== DATOS DE LA INSTANCIA COCO ===");

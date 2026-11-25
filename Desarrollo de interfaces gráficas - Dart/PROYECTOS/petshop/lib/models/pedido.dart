@@ -38,7 +38,7 @@ class Pedido {
 
   void mostrarResumen() {
     print('''
-===== PEDIDO $_id =====
+\n===== PEDIDO $_id =====
 Cliente: $_cliente
 Mascota: $_mascota
 Precio: ${_mascota.precio} €

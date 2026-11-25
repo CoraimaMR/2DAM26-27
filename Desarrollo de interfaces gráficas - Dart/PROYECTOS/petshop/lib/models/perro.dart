@@ -5,9 +5,7 @@ class Perro extends Animal {
   Perro(String nombre, int edad) : super(nombre, edad);
 
   @override
-  void emitirSonido() {
-    print("¡Guau!");
-  }
+  String emitirSonido() => "¡Guau!";
 
   @override
   void mostrarFicha() {
