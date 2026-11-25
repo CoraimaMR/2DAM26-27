@@ -1,3 +1,6 @@
+import 'dart:ffi';
+import 'dart:io';
+
 import 'package:petshop/database/supabase_client.dart';
 import 'package:petshop/models/animal.dart';
 import 'package:petshop/models/ave.dart';
@@ -22,52 +25,50 @@ void main() async {
     for (final mascota in mascotas) {
       print('${mascota['nombre']} - ${mascota['especie']}');
     }
-
   } catch (error) {
     print('Error al consultar Supabase: $error');
   }
 
   print('\n=========== FASE 01: POO ===========');
 
-  final toby = Mascota(1, 'Toby', 'Perro', 2, 500, true);
-  final luna = Mascota(2, 'Luna', 'Gato', 1, 300, true);
-  final piolin = Mascota(3, 'Piolín', 'Ave', 1, 120, true);
-  final nemo = Mascota(4, 'Nemo', 'Pez', 1, 25, true);
+  final listaMascotas = [
+    Mascota(1, 'Toby', 'Perro', 2, 500, true, null, null),
+    Mascota(2, 'Luna', 'Gato', 1, 300, true, null, null),
+    Mascota(3, 'Nemo', 'Pez', 1, 25, true, null, null),
+    Mascota(4, 'Piolín', 'Ave', 1, 120, true, null, null),
+  ];
 
-  for (final mascota in [toby, luna, piolin, nemo]) {
+  for (final mascota in listaMascotas) {
     mascota.mostrarInformacion();
   }
 
-  final cliente = Cliente(1, 'Ana López', 'ana@email.com');
-  final pedido = Pedido(1, cliente, toby, DateTime(2026, 11, 6));
+  final cliente = Cliente(1, 'Ana López', 'ana@email.com', null, null);
+  final pedido = Pedido(1, cliente, listaMascotas[0], DateTime(2026, 11, 6));
   pedido.mostrarResumen();
 
   print('\n=========== FASE 02: FUNCIONES ===========');
-
-  final catalogoFunciones = [
-    Mascota(1, 'Toby', 'Perro', 2, 500, true),
-    Mascota(2, 'Luna', 'Gato', 1, 300, true),
-    Mascota(3, 'Nemo', 'Pez', 1, 25, true),
-    Mascota(4, 'Piolín', 'Ave', 1, 120, true),
-  ];
 
   final ventaService = VentaService();
 
   print('Compras < 50€: ${ventaService.calcularEnvio(35)}'); // 5,00 €
   print('Compras >= 50€: ${ventaService.calcularEnvio(50)}'); // Gratis
 
-  for (final mascota in catalogoFunciones) {
+  for (final mascota in listaMascotas) {
     print('\nNombre: ${mascota.nombre}');
     print('Precio original: ${mascota.precio} €');
-    print('Precio con 10% descuento: ${ventaService.calcularDescuento(mascota.precio)} €');
-    print('Precio con IVA: ${ventaService.calcularPrecioConIVA(mascota.precio)} €');
+    print(
+      'Precio con 10% descuento: ${ventaService.calcularDescuento(mascota.precio)} €',
+    );
+    print(
+      'Precio con IVA: ${ventaService.calcularPrecioConIVA(mascota.precio)} €',
+    );
   }
 
-  toby.generarTicket();
+  listaMascotas[0].generarTicket();
 
   print('\n=========== FASE 03: HERENCIA ===========');
 
-  final List<Animal> inventario = [
+  final List<Animal> listaAnimales = [
     Perro('Toby', 2),
     Gato('Luna', 1),
     Ave('Piolín', 1),
@@ -75,78 +76,83 @@ void main() async {
     Conejo('Bugs', 2),
   ];
 
-  print(inventario[4].emitirSonido());
+  stdout.write('Sonido del conejo: ');
+  listaAnimales[4].emitirSonido();
 
-  for (final animal in inventario) {
+  for (final animal in listaAnimales) {
     print('\nNombre: ${animal.nombre}');
     print('Edad: ${animal.edad} años');
-    print('Sonido: ${animal.emitirSonido()}');
+    stdout.write('Sonido: ');
+    animal.emitirSonido();
   }
 
-  inventario[0].presentar();
-  
-  // print('\n=========== FASE 04: COLECCIONES ===========');
+  listaAnimales[0].presentar();
 
-  // final List<Mascota> catalogo = [
-  //   Mascota(1, 'Toby', 'Perro', 2, 500, true),
-  //   Mascota(2, 'Luna', 'Gato', 1, 300, true),
-  //   Mascota(3, 'Nemo', 'Pez', 1, 25, true),
-  //   Mascota(4, 'Piolín', 'Ave', 1, 120, true),
-  // ];
+  print('\n=========== FASE 04: COLECCIONES ===========');
 
-  // final Set<String> categorias =
-  //     catalogo.map((mascota) => mascota.especie).toSet();
-  // final Map<String, int> stock = {
-  //   'Pienso': 50,
-  //   'Correa': 15,
-  //   'Jaula': 10,
-  //   'Juguete': 30,
-  // };
+  final List<Mascota> inventario = [
+    Mascota(1, 'Toby', 'Perro', 2, 500, true, null, null),
+    Mascota(2, 'Luna', 'Gato', 1, 300, true, null, null),
+    Mascota(3, 'Nemo', 'Pez', 1, 25, true, null, null),
+    Mascota(4, 'Piolín', 'Ave', 1, 120, true, null, null),
+  ];
 
-  // print('Categorías: $categorias');
+  for (final mascota in inventario) {
+    mascota.mostrarInformacion();
+  }
 
-  // print('\nStock inferior a 20 unidades:');
-  // stock.forEach((producto, cantidad) {
-  //   if (cantidad < 20) {
-  //     print('$producto -> $cantidad');
-  //   }
-  // });
+  final Set<String> categorias = inventario
+      .map((mascota) => mascota.especie)
+      .toSet();
+  final Map<String, int> stock = {
+    'Pienso': 50,
+    'Correa': 15,
+    'Jaula': 10,
+    'Juguete': 30,
+  };
 
-  // final total = catalogo.fold<double>(
-  //   0,
-  //   (acumulado, mascota) => acumulado + mascota.precio,
-  // );
-  // print('Valor total del catálogo: ${total.toStringAsFixed(2)} €');
+  print('\nCategorías: $categorias');
+  print('\nStock inferior a 20 unidades:');
+  stock.forEach((producto, cantidad) {
+    if (cantidad < 20) {
+      print('$producto -> $cantidad');
+    }
+  });
 
-  // catalogo.sort((a, b) => a.precio.compareTo(b.precio));
-  // print('\nMascotas ordenadas por precio:');
-  // for (final mascota in catalogo) {
-  //   print('${mascota.nombre}: ${mascota.precio} €');
-  // }
+  final total = inventario.fold<double>(
+    0,
+    (acumulado, mascota) => acumulado + mascota.precio,
+  );
+  print('\nValor total del inventario: ${total.toStringAsFixed(2)} €');
 
-  // print('\n=========== FASE 05: NULL SAFETY ===========');
+  inventario.sort((a, b) => a.precio.compareTo(b.precio));
+  print('\nMascotas ordenadas por precio:');
+  for (final mascota in inventario) {
+    print('${mascota.nombre}: ${mascota.precio} €');
+  }
 
-  // final clientes = [
-  //   ClienteNulo(1, 'Ana', 'ana@email.com', '600123123', 'Madrid', null),
-  //   ClienteNulo(2, 'Luis', 'luis@email.com', '611987654', null, null),
-  //   ClienteNulo(3, 'Marta', 'marta@email.com', null, null, null),
-  // ];
+  print('\n=========== FASE 05: NULL SAFETY ===========');
 
-  // for (final clienteNulo in clientes) {
-  //   clienteNulo.mostrarInformacion();
-  // }
+  final clientes = [
+    Cliente(1, 'Ana', 'ana@email.com', '600123123', 'Madrid'),
+    Cliente(2, 'Luis', 'luis@email.com', '611987654', null),
+    Cliente(3, 'Marta', 'marta@email.com', null, null),
+  ];
 
-  // final mascotasNulas = [
-  //   MascotaNula(1, 'Toby', 'Perro', null),
-  //   MascotaNula(2, 'Luna', 'Gato', 'Vacunada'),
-  // ];
-  // for (final mascota in mascotasNulas) {
-  //   print(
-  //     '${mascota.nombre} - ${mascota.especie} - '
-  //     '${mascota.observaciones ?? "Sin observaciones"}',
-  //   );
-  // }
+  print('');
+  for (final cliente in clientes) {
+    cliente.mostrarInformacion();
+  }
+
+  final mascotasNulas = [
+    Mascota(1, 'Toby', 'Perro', 2, 500, true, null, null),
+    Mascota(2, 'Luna', 'Gato', 1, 300, true, null, null),
+  ];
+
+  print('');
+  for (final mascota in mascotasNulas) {
+    mascota.mostrarInformacion();
+  }
 
   // print('\n=========== FASE 06: EXTENSIONS ===========');
-
 }

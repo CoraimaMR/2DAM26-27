@@ -2,36 +2,44 @@
 class Cliente {
 
   // Atributos privados
-  int _id;
-  String _nombre;
-  String _email;
+  int id;
+  String nombre;
+  String email;
+  String? telefono;
+  String? direccion;
 
   // Constructor
   Cliente(
-    this._id,
-    this._nombre,
-    this._email
+    this.id,
+    this.nombre,
+    this.email,
+    this.telefono,
+    this.direccion
   );
 
   // Getters
-  int get id => _id;
-  String get nombre => _nombre;
-  String get email => _email;
+  int get getId => id;
+  String get getNombre => nombre;
+  String get getEmail => email;
+  String? get getTelefono => telefono;
+  String? get getDireccion => direccion;
 
   // Setters
-  set id(int valor) {if (valor > 0) _id = valor;}
-  set nombre(String valor) {if (valor.isNotEmpty) _nombre = valor;}
-  set email(String valor) {if (valor.isNotEmpty) _email = valor;}
+  set setId(int valor) {if (valor > 0) id = valor;}
+  set setNombre(String valor) {if (valor.isNotEmpty) nombre = valor;}
+  set setEmail(String valor) {if (valor.isNotEmpty) email = valor;}
+  set setTelefono(String valor) {if (valor.isNotEmpty) telefono = valor;}
+  set setDireccion(String valor) {if (valor.isNotEmpty) direccion = valor;}
 
   // Métodos
   void mostrarInformacion() {
     print(
-      'Cliente ID: $_id - Nombre: $_nombre - Email: $_email'
+      'Cliente ID: $id - Nombre: $nombre - Email: $email'
     );
   }
 
   @override
   String toString() {
-    return '$_nombre ($_email)';
+    return '$nombre ($email)';
   }
 }
