@@ -1,3 +1,5 @@
+import 'package:petshop/extensions/precio_extension.dart';
+
 import 'cliente.dart';
 import 'mascota.dart';
 
@@ -42,6 +44,6 @@ class Pedido {
 Cliente: $_cliente
 Mascota: $_mascota
 Precio: ${_mascota.precio} €
-Fecha: $_fecha''');
+Fecha: ${_fecha.formatoSimple()}''');
   }
 }

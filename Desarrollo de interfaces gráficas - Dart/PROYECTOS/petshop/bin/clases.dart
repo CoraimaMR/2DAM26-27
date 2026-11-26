@@ -1,24 +1,25 @@
 import 'package:petshop/database/supabase_client.dart';
+import 'package:petshop/extensions/precio_extension.dart';
 import 'package:petshop/models/animal.dart';
 import 'package:petshop/models/ave.dart';
+import 'package:petshop/models/caja.dart';
 import 'package:petshop/models/gato.dart';
 import 'package:petshop/models/mascota.dart';
 import 'package:petshop/models/cliente.dart';
 import 'package:petshop/models/pedido.dart';
 import 'package:petshop/models/perro.dart';
 import 'package:petshop/models/pez.dart';
+import 'package:petshop/repositories/repository.dart';
 import 'package:petshop/services/venta_service.dart';
 
 void main() async {
  
-  // ----------- CLASE 01 -----------
   print('\n=========== CLASE 01 ===========');
   //Comprobación funcionamiento BBDD
   var supabase = DatabaseConfig.client;
   final mascotas = await supabase.from('mascotas').select();
   print(mascotas);
 
-  // ----------- CLASE 02 -----------
   print('\n=========== CLASE 02 ===========');
   // Creación de instancias de las clases
   final mascota1 = Mascota(1, 'Silver', 'Perro', 3, 750, true, null, null);  
@@ -37,7 +38,6 @@ void main() async {
   cliente1.mostrarInformacion();
   pedido1.mostrarResumen();
 
-  // ----------- CLASE 03 -----------
   print('\n=========== CLASE 03 ===========');
   // Creación de funciones de cálculo
   final ventaService = VentaService();
@@ -49,7 +49,6 @@ void main() async {
   print('Precio de 100 con descuento de 10: $calculo1 €');
   print('Precio de 100 con descuento de 20: $calculo2 €');
 
-  // ----------- CLASE 04 -----------
   print('\n=========== CLASE 04 ===========');
   // Creación de instancias de las extensiones de la clase Animal
   final coco = Perro('Coco', 3);
@@ -115,7 +114,6 @@ void main() async {
   nombresCatalogo.addAll(conj2);
   nombresCatalogo.contains('Coco');
 
-  // ----------- CLASE 05 -----------
   print('\n=========== CLASE 05 ===========');
   Map<String, int> stock = {
     'Pienso': 50,
@@ -148,7 +146,28 @@ void main() async {
   var cliente = Cliente(1, 'Fermin', 'fermin@gmail.com', '+34000000000', null);
   print(cliente.direccion?.length);
 
-  print(cliente.direccion ?? 'Sin direciion');
-  print(cliente.telefono ?? 'Sin telefono');
+  print('\nDireccion de cliente: ${cliente.direccion ?? 'Sin direciion'}');
+  print('Telefono de cliente: ${cliente.telefono ?? 'Sin telefono'}');
+
+  print('\n=========== CLASE 06 ===========');
+  // Metodos en precio_extension.dart
+  print('Convertir a .toEuro(): ${mascota1.precio.toEuro()}');
+  print('Convertir a .capitalizar(): ${'olga m.'.capitalizar()}');
+  print('Convertir a .capitalizar(): ${'olga m.'.split(' ').map((m) => m.capitalizar())}');
+  print('Convertir a .formatoSimple(): ${DateTime.now().formatoSimple()}');
+  print('Convertir a .esCara(): ${mascota1.esCara()}');
+  print('Convertir a .resumen(): ${mascota1.resumen()}');
+  print('Convertir a .aplicarDescuento(): ${mascota1.precio.aplicarDescuento(10)}');
+
+  // Class caja.dart
+  var caja1 = Caja<int>(1);
+  var caja2 = Caja<String>('Fer');
+
+  print('\nMostrar contenido caja 1: ${caja1.obtener()}');
+
+  // Class repository.dart
+  final mascotaRepository = Repository<Mascota>();
+  mascotaRepository.add(mascota1);
+  print('Mostrar contenido mascotaRepository: ${mascotaRepository.getAll().toString()}');
   
 }
