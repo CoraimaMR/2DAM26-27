@@ -88,7 +88,7 @@ public class VentanaPrincipalORM extends JFrame {
 
         btnRecargar.addActionListener(e -> {
             cargarClientes();
-            //cargarProductos();
+            cargarProductos();
         });
 
         panel.add(new JLabel("PostgreSQL / Hibernate ORM"));
@@ -139,10 +139,10 @@ public class VentanaPrincipalORM extends JFrame {
         JButton btnEliminar = new JButton("Eliminar");
         JButton btnActualizar = new JButton("Actualizar tabla");
 
-       /* btnNuevo.addActionListener(e -> nuevoProducto());
+        btnNuevo.addActionListener(e -> nuevoProducto());
         btnEditar.addActionListener(e -> editarProducto());
         btnEliminar.addActionListener(e -> eliminarProducto());
-        btnActualizar.addActionListener(e -> cargarProductos());*/
+        btnActualizar.addActionListener(e -> cargarProductos());
 
         botones.add(btnNuevo);
         botones.add(btnEditar);
@@ -174,6 +174,7 @@ public class VentanaPrincipalORM extends JFrame {
         }
 
         cargarClientes();
+        cargarProductos();
 
     }
 
@@ -238,7 +239,7 @@ public class VentanaPrincipalORM extends JFrame {
     // PRODUCTOS
     // =========================================================
 
-   /* private void cargarProductos() {
+    private void cargarProductos() {
         try {
             modeloProductos.setRowCount(0);
             for (ProductoEntidad p : productoDAO.listar()) {
@@ -358,7 +359,7 @@ public class VentanaPrincipalORM extends JFrame {
             mostrarError("Error eliminando producto: " + ex.getMessage());
         }
     }
-*/
+
     private void mostrarError(String mensaje) {
 
         JOptionPane.showMessageDialog(
